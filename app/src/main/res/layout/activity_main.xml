@@ -10,7 +10,6 @@
         android:id="@+id/phonelistview"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-        android:background="@android:color/holo_orange_dark"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
