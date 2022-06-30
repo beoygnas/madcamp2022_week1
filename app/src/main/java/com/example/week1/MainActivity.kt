@@ -1,7 +1,9 @@
 package com.example.week1
 
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.week1.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -12,6 +14,7 @@ class MainActivity : AppCompatActivity() {
         R.drawable.noun_contact,
         R.drawable.noun_gallery
     )
+    val MY_PERMISSION_ACCESS_ALL = 100
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +38,29 @@ class MainActivity : AppCompatActivity() {
                 else -> tab.text = "TBD"
             }
         }.attach()
+
+        if(ActivityCompat.checkSelfPermission(this, android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            var permissions = arrayOf(
+                android.Manifest.permission.READ_CONTACTS
+            // For future Permissions
+            )
+            ActivityCompat.requestPermissions(this, permissions, MY_PERMISSION_ACCESS_ALL)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode === MY_PERMISSION_ACCESS_ALL) {
+            if(grantResults.isNotEmpty()) {
+                for (grant in grantResults) {
+                    if (grant != PackageManager.PERMISSION_GRANTED) System.exit(0)
+                }
+            }
+        }
     }
 }
