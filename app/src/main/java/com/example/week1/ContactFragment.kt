@@ -1,5 +1,6 @@
 package com.example.week1
 
+import android.content.ContentResolver
 import android.os.Bundle
 import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
@@ -8,7 +9,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import com.example.week1.databinding.FragmentContactBinding
-import com.example.week1.databinding.FragmentMyBinding
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.fragment.app.FragmentActivity
+import com.example.week1.databinding.ActivityMainBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +39,7 @@ class ContactFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
     }
 
     override fun onCreateView(
@@ -57,6 +63,7 @@ class ContactFragment : Fragment() {
         val list = ArrayList<Phone>()
         list.add(Phone(ContextCompat.getDrawable(requireContext(), R.drawable.img)!!, "김상엽", "010-2647-4429"))
         list.add(Phone(ContextCompat.getDrawable(requireContext(), R.drawable.img)!!, "이상민", "010-7588-6095"))
+
 
         val adapter = phoneAdapter(list)
         binding.phonelistview.adapter = adapter

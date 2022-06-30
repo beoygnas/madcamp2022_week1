@@ -4,6 +4,6 @@ import android.graphics.drawable.Drawable
 
 data class Phone(
     var img : Drawable,
-    var name: String,
-    var number: String
+    var name: String?,
+    var number: String?
 )
