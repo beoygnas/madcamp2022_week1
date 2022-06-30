@@ -19,3 +19,4 @@ class MyPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
     }
 
 }
+

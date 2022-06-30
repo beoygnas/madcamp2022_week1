@@ -29,6 +29,11 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val bundle : Bundle = Bundle()
+        bundle.putString("hello", "hello")
+        var CF = ContactFragment()
+        CF.arguments = bundle
+
 //        val viewPager : ViewPager2 = findViewById(R.id.viewpager)
 //        val viewpagerFragmentAdapter = MyPagerAdapter(this)
 //        viewPager.adapter = viewpagerFragmentAdapter

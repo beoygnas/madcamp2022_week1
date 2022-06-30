@@ -3,6 +3,7 @@ package com.example.week1
 import android.content.ContentResolver
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -67,6 +68,13 @@ class ContactFragment : Fragment() {
 
         val adapter = phoneAdapter(list)
         binding.phonelistview.adapter = adapter
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        val data = arguments?.getString("hello").orEmpty()
+        Log.d("data", data)
+
+        super.onActivityCreated(savedInstanceState)
     }
 
     companion object {
