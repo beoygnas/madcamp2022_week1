@@ -17,6 +17,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [MyFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+
 class MyFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -37,7 +38,6 @@ class MyFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         _binding = FragmentMyBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -50,6 +50,10 @@ class MyFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.textview.text = param1
+        var phoneAdapter = phoneAdapter()
+        binding.phonelistview.adapter =phoneAdapter
+        phoneAdapter.addItem("김상엽", "010-2647-4429")
+        phoneAdapter.addItem("이상민", "010-7588-6085")
     }
 
     companion object {

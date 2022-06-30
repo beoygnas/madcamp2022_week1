@@ -11,7 +11,7 @@ class MyPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
 
     override fun createFragment(position: Int): Fragment {
         return when (position) {
-            0 -> { MyFragment.newInstance("Contact", "") }
+            0 -> { MyFragment.newInstance("Content", "") }
             1 -> { MyFragment.newInstance("Gallery", "") }
             else -> { MyFragment.newInstance("TBD", "") }
         }

@@ -26,7 +26,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        val mybinding = FragmentMyBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.viewpager.apply {
@@ -38,8 +37,6 @@ class MainActivity : AppCompatActivity() {
                 0 -> {
                     tab.text = "Contact"
                     tab.setIcon(tabIcon[position])
-                    mybinding.textview.text = "바인딩 성공"
-
                 }
                 1 -> {
                     tab.text = "Gallery"
