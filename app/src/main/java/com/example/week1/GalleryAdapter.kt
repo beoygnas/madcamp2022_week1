@@ -1,5 +1,6 @@
 package com.example.week1
 
+import android.content.Context
 import android.content.Intent
 import android.provider.MediaStore
 import android.util.Log
@@ -8,13 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.app.ActivityCompat.startActivityForResult
 import androidx.core.net.toUri
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.week1.databinding.GalleryItemBinding
 
 
 class GalleryAdapter(
 //    var imageList: List<Image>,
 //    private val listener: (Image, Int) -> Unit
+    val context: GalleryFragment,
     var imageList: List<String>,
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
@@ -41,7 +45,10 @@ class GalleryAdapter(
             with(imageList[position]){
 //                binding.galleryItem.setImageResource(this.img)
 //                Log.d("Uri:################ ", this)
-                binding.galleryItem.setImageURI(this.toUri())
+                // Original without Glide
+//                binding.galleryItem.setImageURI(this.toUri())
+
+                Glide.with(context).load(this).into(binding.galleryItem)
             }
         }
 

@@ -2,12 +2,10 @@ package com.example.week1
 
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
 
@@ -79,8 +77,8 @@ class GalleryFragment : Fragment() {
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         loadImage()
         binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
-//        Log.d("Uri: ","f")
-        rvAdapter = GalleryAdapter(uriArr)
+//        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos
+        rvAdapter = GalleryAdapter(this, uriArr)
         binding.recyclerView.adapter = rvAdapter
 
         return binding.root
