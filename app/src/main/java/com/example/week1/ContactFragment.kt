@@ -45,13 +45,11 @@ class ContactFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-
-        var files : Array<String> = requireContext().fileList()
-        Log.d("list", files[2])
-
-        val filename = "contacts.json"
-
-        var jsonstr : String
+//        var files : Array<String> = requireContext().fileList()
+//        Log.d("list", files[2])
+//
+//        val filename = "contacts.json"
+//        var jsonstr : String
 
 //  assets json 읽기
 //        val assetManager = resources.assets
@@ -61,24 +59,24 @@ class ContactFragment : Fragment() {
 //            it.write(jsonString.toByteArray())
 //        }
 //  파일 읽기
-        requireContext().openFileInput(filename).use { stream ->
-            val text = stream.bufferedReader().use { it.readText() }
-            jsonstr = text
-            Log.d("TAG", "LOADED: $jsonstr")
-        }
+//        requireContext().openFileInput(filename).use { stream ->
+//            val text = stream.bufferedReader().use { it.readText() }
+//            jsonstr = text
+//            Log.d("TAG", "LOADED: $jsonstr")
+//        }
 //  새로운 연락처 추가
-        val jsonObject = JSONObject(jsonstr)
-        val newcontactjson = JSONObject()
-        newcontactjson.put("img", 2131165296)
-        newcontactjson.put("name", "kimsangyeob")
-        newcontactjson.put("number", "01026474429")
-        jsonObject.accumulate("contacts", newcontactjson)
+//        val jsonObject = JSONObject(jsonstr)
+//        val newcontactjson = JSONObject()
+//        newcontactjson.put("img", 2131165296)
+//        newcontactjson.put("name", "kimsangyeob")
+//        newcontactjson.put("number", "01026474429")
+//        jsonObject.accumulate("contacts", newcontactjson)
 
 //  파일 쓰기
-        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-            it.write(jsonObject.toString().toByteArray())
-            Log.d("TAG", "응애: $jsonObject.toString()")
-        }
+//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
+//            it.write(jsonObject.toString().toByteArray())
+//            Log.d("TAG", "응애: $jsonObject.toString()")
+//        }
 
 //            얘네는 인자확인용 코드
 //            val contactsjsonObject = jsonArray.getJSONObject(1)
