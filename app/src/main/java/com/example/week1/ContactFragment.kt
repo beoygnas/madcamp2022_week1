@@ -50,8 +50,16 @@ class ContactFragment : Fragment() {
         Log.d("list", files[2])
 
         val filename = "contacts.json"
+
         var jsonstr : String
 
+//  assets json 읽기
+//        val assetManager = resources.assets
+//        val inputStream= assetManager.open("contacts.json")
+//        val jsonString = inputStream.bufferedReader().use { it.readText() }
+//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
+//            it.write(jsonString.toByteArray())
+//        }
 //  파일 읽기
         requireContext().openFileInput(filename).use { stream ->
             val text = stream.bufferedReader().use { it.readText() }
@@ -69,17 +77,13 @@ class ContactFragment : Fragment() {
 //  파일 쓰기
         requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
             it.write(jsonObject.toString().toByteArray())
+            Log.d("TAG", "응애: $jsonObject.toString()")
         }
 
 //            얘네는 인자확인용 코드
 //            val contactsjsonObject = jsonArray.getJSONObject(1)
 //            val value = contactsjsonObject.getString("name")
 //            Log.d("TAG", value)
-
-
-
-
-
     }
 
     override fun onCreateView(
