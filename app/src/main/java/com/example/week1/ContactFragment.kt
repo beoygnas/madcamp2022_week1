@@ -106,6 +106,32 @@ class ContactFragment : Fragment() {
 
         val list = ArrayList<Phone>()
 
+        val filename = "contacts.json"
+        var jsonstr : String
+
+//  파일 읽기
+
+        requireContext().openFileInput(filename).use { stream ->
+            val text = stream.bufferedReader().use { it.readText() }
+            jsonstr = text
+            Log.d("TAG", "LOADED: $jsonstr")
+        }
+        val jsonary = JSONObject(jsonstr).getJSONArray("contacts")
+        Log.d("TAG", "LOADED: $jsonary")
+
+
+        for(index in 0 until jsonary.length()){
+            val jsonobj = jsonary.getJSONObject(index)
+            val img = jsonobj.getInt("img")
+            val name = jsonobj.getString("name")
+            val number = jsonobj.getString("number")
+
+            val phone = Phone(img, name, number)
+            list.add(phone)
+        }
+
+        // ================================================================== //
+
         val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
 
         val projections = arrayOf(ContactsContract.CommonDataKinds.Phone.CONTACT_ID
@@ -116,7 +142,6 @@ class ContactFragment : Fragment() {
 
         while(cursor?.moveToNext()?:false) {
 
-            val id = cursor?.getString(0)
             var name = cursor?.getString(1).orEmpty()
             var number = cursor?.getString(2).orEmpty()
             val phone = Phone(R.drawable.img, name, number)
