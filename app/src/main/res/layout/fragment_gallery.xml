@@ -8,14 +8,21 @@
     android:background="@drawable/pagepartition"
     tools:context=".GalleryFragment">
 
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/refreshGallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/gallery_item"
+            />
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/gallery_item"
-        />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 <!--    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
 
 
@@ -26,5 +33,6 @@
 <!--        android:layout_gravity="center"-->
 <!--        android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
 <!--        android:text="@string/hello_blank_fragment" />-->
-
+    
+    
 </FrameLayout>

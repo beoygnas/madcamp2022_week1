@@ -2,12 +2,14 @@ package com.example.week1
 
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
+import org.jetbrains.anko.support.v4.toast
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -28,12 +30,13 @@ class GalleryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var rvAdapter: GalleryAdapter
-    private lateinit var imageList : List<Image>
+//    private lateinit var imageList : List<Image>
 
-    private val uriArr = ArrayList<String>()
+    private val uriArr: ArrayList<String> = ArrayList<String>()
 
     private fun loadImage() {
-
+//        Log.d("Check", "LoadImage called")
+//        uriArr = ArrayList<String>()
         val cursor = requireActivity().contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             null,
@@ -41,23 +44,16 @@ class GalleryFragment : Fragment() {
             null,
             MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC")
 
+
         if(cursor!=null){
             while(cursor.moveToNext()){
                 // 사진 경로 Uri 가져오기
                 val uri = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 uriArr.add(uri)
+                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
         }
-        imageList = listOf(
-            Image("Cat1", R.drawable.cat1),
-            Image("Cat2", R.drawable.cat2),
-            Image("Cat3", R.drawable.cat3),
-            Image("Cat4", R.drawable.cat4),
-            Image("Cat5", R.drawable.cat1),
-            Image("Cat6", R.drawable.cat2),
-            Image("Cat7", R.drawable.cat3),
-            )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,11 +71,6 @@ class GalleryFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        loadImage()
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
-//        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos
-        rvAdapter = GalleryAdapter(this, uriArr)
-        binding.recyclerView.adapter = rvAdapter
 
         return binding.root
     }
@@ -91,6 +82,16 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        binding.textview.text = param1
+        binding.refreshGallery.setOnRefreshListener {
+            toast("Refreshed!!")
+            requireActivity().recreate()
+            binding.refreshGallery.isRefreshing = false
+        }
+        loadImage()
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+//        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos
+        rvAdapter = GalleryAdapter(this, uriArr)
+        binding.recyclerView.adapter = rvAdapter
     }
 
     companion object {
