@@ -48,6 +48,7 @@ class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<p
     // 각 항목에 필요한 기능을 구현
     class ViewHolder(private var binding : ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listener: View.OnClickListener, item: Phone) {
+            binding.Image.setImageResource(item.img)
             binding.Name.text = item.name
             binding.Number.text = item.number
         }

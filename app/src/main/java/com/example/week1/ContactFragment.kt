@@ -6,11 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
-import com.example.week1.databinding.FragmentMyBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,12 +67,12 @@ class ContactFragment : Fragment() {
 
         var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
 
-        while(cursor?.moveToNext()?:false) {
+        while(cursor?.moveToNext()?:falsㅌe) {
 
             val id = cursor?.getString(0)
             var name = cursor?.getString(1).orEmpty()
             var number = cursor?.getString(2).orEmpty()
-            val phone = Phone(ContextCompat.getDrawable(requireContext(), R.drawable.img)!!, name, number)
+            val phone = Phone(R.drawable.img, name, number)
             list.add(phone)
         }
 
@@ -89,7 +86,7 @@ class ContactFragment : Fragment() {
                 var tmpnumber = list[position].number
 
                 val dialog = ContactDialog(requireContext())
-                dialog.showDialog(tmpname, tmpnumber)
+                dialog.showDialog(tmpimg, tmpname, tmpnumber)
             }
         })
 

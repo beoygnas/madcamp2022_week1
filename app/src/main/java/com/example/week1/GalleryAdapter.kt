@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.week1.databinding.GalleryItemBinding
 
-
 class GalleryAdapter(
 //    var imageList: List<Image>,
 //    private val listener: (Image, Int) -> Unit
@@ -51,7 +50,6 @@ class GalleryAdapter(
                 Glide.with(context).load(this).into(binding.galleryItem)
             }
         }
-
 //        holder.itemView.setOnClickListener { listener(imageList[position], position) }
 //        println(holder.itemView)
     }

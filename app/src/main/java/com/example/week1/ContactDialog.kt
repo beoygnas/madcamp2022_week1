@@ -22,7 +22,7 @@ class ContactDialog(context: Context) {
         onClickListener = listener
     }
 
-    fun showDialog(name:String, number:String)
+    fun showDialog(img : Int, name:String, number:String)
     {
         dialog.setContentView(R.layout.contact_dialog)
         dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -35,7 +35,7 @@ class ContactDialog(context: Context) {
         button_back = dialog.findViewById<Button>(R.id.btn_back)
         button_profile = dialog.findViewById<Button>(R.id.btn_profile)
 
-//        imageView_img.src = img
+        imageView_img.setImageResource(img)
         textView_name.text = name
         textView_number.text = number
 

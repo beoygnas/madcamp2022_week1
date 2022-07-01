@@ -49,15 +49,6 @@ class GalleryFragment : Fragment() {
             }
             cursor.close()
         }
-        imageList = listOf(
-            Image("Cat1", R.drawable.cat1),
-            Image("Cat2", R.drawable.cat2),
-            Image("Cat3", R.drawable.cat3),
-            Image("Cat4", R.drawable.cat4),
-            Image("Cat5", R.drawable.cat1),
-            Image("Cat6", R.drawable.cat2),
-            Image("Cat7", R.drawable.cat3),
-            )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
