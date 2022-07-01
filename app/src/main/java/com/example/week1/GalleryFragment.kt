@@ -50,7 +50,7 @@ class GalleryFragment : Fragment() {
                 // 사진 경로 Uri 가져오기
                 val uri = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 uriArr.add(uri)
-                Log.d("Uri", "Uri is travelsed")
+//                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
         }
@@ -85,10 +85,13 @@ class GalleryFragment : Fragment() {
         binding.refreshGallery.setOnRefreshListener {
             toast("Refreshed!!")
             requireActivity().recreate()
+            // For library
+//            binding.refreshGallery.setRefreshing(false)
+            // For basic swiperefreshlayout
             binding.refreshGallery.isRefreshing = false
         }
         loadImage()
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
 //        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos
         rvAdapter = GalleryAdapter(this, uriArr)
         binding.recyclerView.adapter = rvAdapter

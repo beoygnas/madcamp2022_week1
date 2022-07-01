@@ -1,18 +1,16 @@
 package com.example.week1
 
-import android.content.Context
-import android.content.Intent
-import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import androidx.core.app.ActivityCompat.startActivityForResult
-import androidx.core.net.toUri
-import androidx.fragment.app.FragmentActivity
+import android.widget.GridLayout
+import android.widget.ImageView
+import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.week1.databinding.GalleryItemBinding
+import org.jetbrains.anko.padding
 
 
 class GalleryAdapter(
@@ -47,8 +45,12 @@ class GalleryAdapter(
 //                Log.d("Uri:################ ", this)
                 // Original without Glide
 //                binding.galleryItem.setImageURI(this.toUri())
+                val display = context.resources.displayMetrics
+//
+                binding.galleryItem.padding = 2
+                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/3,display.widthPixels/3)
 
-                Glide.with(context).load(this).into(binding.galleryItem)
+                Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
         }
 
