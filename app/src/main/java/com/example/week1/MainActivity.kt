@@ -12,6 +12,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.week1.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -65,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         if (requestCode === MY_PERMISSION_ACCESS_ALL) {
             if(grantResults.isNotEmpty()) {
                 for (grant in grantResults) {
-                    if (grant != PackageManager.PERMISSION_GRANTED) toast("권한 거부 됨")//showPermissionExplanationDialog() //System.exit(0)
+                    if (grant != PackageManager.PERMISSION_GRANTED) showPermissionExplanationDialog() //System.exit(0) //toast("권한 거부 됨")
                 }
             }
         }

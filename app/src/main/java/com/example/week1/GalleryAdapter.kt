@@ -1,13 +1,21 @@
 package com.example.week1
 
+import android.content.Intent
+import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.core.app.ActivityCompat.startActivityForResult
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.week1.databinding.GalleryItemBinding
 
+
 class GalleryAdapter(
-    var imageList: List<Image>,
+//    var imageList: List<Image>,
 //    private val listener: (Image, Int) -> Unit
+    var imageList: List<String>,
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     // create an inner class with name ViewHolder
@@ -19,7 +27,6 @@ class GalleryAdapter(
     // and return new ViewHolder object containing this layout
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = GalleryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-
         return ViewHolder(binding)
     }
 
@@ -32,9 +39,12 @@ class GalleryAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(imageList[position]){
-                binding.galleryItem.setImageResource(this.img)
+//                binding.galleryItem.setImageResource(this.img)
+//                Log.d("Uri:################ ", this)
+                binding.galleryItem.setImageURI(this.toUri())
             }
         }
+
 //        holder.itemView.setOnClickListener { listener(imageList[position], position) }
 //        println(holder.itemView)
     }

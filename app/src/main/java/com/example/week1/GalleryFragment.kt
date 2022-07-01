@@ -1,6 +1,8 @@
 package com.example.week1
 
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -8,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
-import com.example.week1.databinding.FragmentMyBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,8 +32,25 @@ class GalleryFragment : Fragment() {
     private lateinit var rvAdapter: GalleryAdapter
     private lateinit var imageList : List<Image>
 
+    private val uriArr = ArrayList<String>()
 
     private fun loadImage() {
+
+        val cursor = requireActivity().contentResolver.query(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            null,
+            null,
+            null,
+            MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC")
+
+        if(cursor!=null){
+            while(cursor.moveToNext()){
+                // 사진 경로 Uri 가져오기
+                val uri = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
+                uriArr.add(uri)
+            }
+            cursor.close()
+        }
         imageList = listOf(
             Image("Cat1", R.drawable.cat1),
             Image("Cat2", R.drawable.cat2),
@@ -60,8 +78,9 @@ class GalleryFragment : Fragment() {
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
         loadImage()
-        binding.recyclerView.setLayoutManager(GridLayoutManager(context, 2))
-        rvAdapter = GalleryAdapter(imageList)
+        binding.recyclerView.layoutManager = GridLayoutManager(context, 2)
+//        Log.d("Uri: ","f")
+        rvAdapter = GalleryAdapter(uriArr)
         binding.recyclerView.adapter = rvAdapter
 
         return binding.root
