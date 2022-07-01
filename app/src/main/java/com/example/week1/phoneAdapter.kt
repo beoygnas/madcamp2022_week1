@@ -23,13 +23,24 @@ class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<p
         }
         holder.apply {
             bind(listener, item)
-            itemView.tag = item
+//            itemView.tag = item
+        }
+        holder.itemView.setOnClickListener{
+            itemClickListener.onClick(it, position)
         }
     }
 
+    interface OnItemClickListener{
+        fun onClick(v:View, position:Int)
+    }
+
+    fun setItemClickListener(OnItemClickListener : OnItemClickListener){
+        this.itemClickListener = OnItemClickListener
+    }
+
+    private lateinit var itemClickListener : OnItemClickListener
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-//        val inflatedView = LayoutInflater.from(parent.context).inflate(R.layout.item_view, parent, false)
-//        return phoneAdapter.ViewHolder(inflatedView)
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return ViewHolder(binding)
     }
