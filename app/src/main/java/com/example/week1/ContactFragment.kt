@@ -1,10 +1,14 @@
 package com.example.week1
 
 import android.os.Bundle
+import android.provider.ContactsContract
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.content.ContextCompat
+import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
 import com.example.week1.databinding.FragmentMyBinding
 
@@ -24,7 +28,9 @@ class ContactFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentContactBinding? = null
+    private var _dialogbinding : ContactDialogBinding?= null
     private val binding get() = _binding!!
+    private val dialogbinding get() = _dialogbinding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,27 +47,57 @@ class ContactFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_contact, container, false)
         _binding = FragmentContactBinding.inflate(inflater, container, false)
+        _dialogbinding = ContactDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onDestroyView() {
         _binding = null
+        _dialogbinding = null
         super.onDestroyView()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.textview.text = param1
+
+        val list = ArrayList<Phone>()
+
+        val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+
+        val projections = arrayOf(ContactsContract.CommonDataKinds.Phone.CONTACT_ID
+            , ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+            , ContactsContract.CommonDataKinds.Phone.NUMBER)
+
+        var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
+
+        while(cursor?.moveToNext()?:false) {
+
+            val id = cursor?.getString(0)
+            var name = cursor?.getString(1).orEmpty()
+            var number = cursor?.getString(2).orEmpty()
+            val phone = Phone(ContextCompat.getDrawable(requireContext(), R.drawable.img)!!, name, number)
+            list.add(phone)
+        }
+
+        val adapter = phoneAdapter(list)
+        binding.phonelistview.adapter = adapter
+
+        adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener{
+            override fun onClick(v:View, position : Int){
+                var tmpimg = list[position].img
+                var tmpname = list[position].name
+                var tmpnumber = list[position].number
+
+                val dialog = ContactDialog(requireContext())
+                dialog.showDialog(tmpname, tmpnumber)
+            }
+        })
+
+
+
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ContactFragment.
-         */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
