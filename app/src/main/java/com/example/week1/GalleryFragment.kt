@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
 import com.example.week1.databinding.FragmentMyBinding
 
@@ -26,6 +28,22 @@ class GalleryFragment : Fragment() {
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var rvAdapter: GalleryAdapter
+    private lateinit var imageList : List<Image>
+
+
+    private fun loadImage() {
+        imageList = listOf(
+            Image("Cat1", R.drawable.cat1),
+            Image("Cat2", R.drawable.cat2),
+            Image("Cat3", R.drawable.cat3),
+            Image("Cat4", R.drawable.cat4),
+            Image("Cat5", R.drawable.cat1),
+            Image("Cat6", R.drawable.cat2),
+            Image("Cat7", R.drawable.cat3),
+            )
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -41,6 +59,11 @@ class GalleryFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        loadImage()
+        binding.recyclerView.setLayoutManager(GridLayoutManager(context, 2))
+        rvAdapter = GalleryAdapter(imageList)
+        binding.recyclerView.adapter = rvAdapter
+
         return binding.root
     }
 
@@ -50,7 +73,7 @@ class GalleryFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.textview.text = param1
+//        binding.textview.text = param1
     }
 
     companion object {

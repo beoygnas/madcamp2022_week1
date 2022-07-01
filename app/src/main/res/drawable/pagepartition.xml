@@ -7,13 +7,13 @@
     </item>
     <item android:right="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" />
+            <solid android:color="#F5F8FD" />
         </shape>
     </item>
 
     <item android:right="1dp">
         <shape android:shape="rectangle">
-            <solid android:color="#FFFFFF" />
+            <solid android:color="#F5F8FD" />
         </shape>
     </item>
 

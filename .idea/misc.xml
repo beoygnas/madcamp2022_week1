@@ -10,6 +10,8 @@
         <entry key="app/src/main/res/layout/fragment_contact.xml" value="0.13779128672745694" />
         <entry key="app/src/main/res/layout/fragment_gallery.xml" value="0.19630192502532928" />
         <entry key="app/src/main/res/layout/fragment_my.xml" value="0.2803442028985507" />
+        <entry key="app/src/main/res/layout/gallery_item.xml" value="0.32464575283769237" />
+        <entry key="app/src/main/res/layout/gallery_recycler_ex.xml" value="0.11096014492753623" />
         <entry key="app/src/main/res/layout/viewpager_item.xml" value="0.21822916666666667" />
       </map>
     </option>
