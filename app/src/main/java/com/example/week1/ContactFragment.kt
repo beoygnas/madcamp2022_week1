@@ -1,13 +1,22 @@
 package com.example.week1
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
+import android.content.res.AssetManager
 import android.os.Bundle
 import android.provider.ContactsContract
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
+import org.json.JSONArray
+import org.json.JSONObject
+import java.io.File
+import java.io.FileOutputStream
+import java.nio.channels.AsynchronousFileChannel.open
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -35,6 +44,42 @@ class ContactFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+        var files : Array<String> = requireContext().fileList()
+        Log.d("list", files[2])
+
+        val filename = "contacts.json"
+        var jsonstr : String
+
+//  파일 읽기
+        requireContext().openFileInput(filename).use { stream ->
+            val text = stream.bufferedReader().use { it.readText() }
+            jsonstr = text
+            Log.d("TAG", "LOADED: $jsonstr")
+        }
+//  새로운 연락처 추가
+        val jsonObject = JSONObject(jsonstr)
+        val newcontactjson = JSONObject()
+        newcontactjson.put("img", 2131165296)
+        newcontactjson.put("name", "kimsangyeob")
+        newcontactjson.put("number", "01026474429")
+        jsonObject.accumulate("contacts", newcontactjson)
+
+//  파일 쓰기
+        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
+            it.write(jsonObject.toString().toByteArray())
+        }
+
+//            얘네는 인자확인용 코드
+//            val contactsjsonObject = jsonArray.getJSONObject(1)
+//            val value = contactsjsonObject.getString("name")
+//            Log.d("TAG", value)
+
+
+
+
+
     }
 
     override fun onCreateView(
@@ -67,7 +112,7 @@ class ContactFragment : Fragment() {
 
         var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
 
-        while(cursor?.moveToNext()?:falsㅌe) {
+        while(cursor?.moveToNext()?:false) {
 
             val id = cursor?.getString(0)
             var name = cursor?.getString(1).orEmpty()

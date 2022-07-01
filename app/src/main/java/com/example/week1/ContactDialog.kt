@@ -2,6 +2,7 @@ package com.example.week1
 
 import android.app.Dialog
 import android.content.Context
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
@@ -35,6 +36,7 @@ class ContactDialog(context: Context) {
         button_back = dialog.findViewById<Button>(R.id.btn_back)
         button_profile = dialog.findViewById<Button>(R.id.btn_profile)
 
+        Log.d("img", "img = " + img)
         imageView_img.setImageResource(img)
         textView_name.text = name
         textView_number.text = number
