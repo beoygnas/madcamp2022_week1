@@ -80,7 +80,7 @@ class GalleryFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+//        Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
 
@@ -104,32 +104,7 @@ class GalleryFragment : Fragment() {
             // For basic swiperefreshlayout
             binding.refreshGallery.isRefreshing = false
         }
-//        // Connect the recycler to the scroller (to let the scroller scroll the list)
-//        binding.fastScroller.setRecyclerView(binding.recyclerView)
-//
-//        // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
-//        binding.recyclerView.setOnScrollChangeListener(binding.fastScroller.onScrollListener)
 
-        // 스크롤 시 스와이핑 막기 구현하기
-//        val onScrollListener = object: RecyclerView.OnScrollListener() {
-//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-//                super.onScrollStateChanged(recyclerView, newState)
-//                if (newState == SCROLL_STATE_DRAGGING) {
-//                    activityBinding.viewpager.isUserInputEnabled = false;
-//                    Log.d("Scroll", "#########     DRAGGING")
-//                }
-//            }
-//
-//        }
-//
-//
-//        binding.recyclerView.addOnScrollListener (onScrollListener)
-
-
-//        activityBinding.viewpager.isUserInputEnabled = false;
-//        binding.recyclerView.scrollBarStyle
-//        if (binding.recyclerView.isVerticalScrollBarEnabled == true)
-//            Log.d("Scroll", "#########     DRAGGING")
 
         loadImage()
         // Change spanCount for number of columns
