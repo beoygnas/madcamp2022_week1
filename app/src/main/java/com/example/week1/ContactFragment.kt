@@ -144,7 +144,7 @@ class ContactFragment : Fragment() {
                 listfromjson.add(phone)
             }
 
-            val adapter = phoneAdapter(listfromjson)
+            val adapter = phoneAdapter(this, listfromjson)
             binding.phonelistview.adapter = adapter
 
             adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {

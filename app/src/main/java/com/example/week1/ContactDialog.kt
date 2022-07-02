@@ -8,10 +8,13 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 
 class ContactDialog(context: Context) {
 
     private val dialog = Dialog(context)
+    private val context = context
     private lateinit var imageView_img : ImageView
     private lateinit var textView_name : TextView
     private lateinit var textView_number : TextView
@@ -39,7 +42,9 @@ class ContactDialog(context: Context) {
         button_profile = dialog.findViewById<Button>(R.id.btn_profile)
 
         Log.d("img", "img = " + img)
-        imageView_img.setImageURI(img.toUri())
+        val option1 = RequestOptions().circleCrop()
+        Glide.with(context).load(img).centerCrop().apply(option1).into(imageView_img)
+//        imageView_img.setImageURI(img.toUri())
         textView_name.text = name
         textView_number.text = number
 
