@@ -12,18 +12,21 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.l4digital.fastscroll.FastScrollView
 
 class GalleryDialog(context: Context) {
 
     private val dialog = Dialog(context)
     val context = context
-    private lateinit var recyclerAdapter : GalleryDialogAdapter
-    private lateinit var recyclerView : RecyclerView
+    private lateinit var recyclerView : FastScrollView
     private val uriArr: ArrayList<String> = ArrayList<String>()
     private lateinit var button_ok : Button
     private lateinit var button_back : Button
     private lateinit var uri : String
     private lateinit var onClickListener: itemClickListener
+
+    private lateinit var rvLayoutManager: GridLayoutManager
+    private lateinit var rvAdapter: GalleryDialogAdapter
 
     fun setOnClickListener(listener: itemClickListener)
     {
@@ -54,19 +57,26 @@ class GalleryDialog(context: Context) {
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
-        recyclerView = dialog.findViewById<RecyclerView>(R.id.recyclerViewProfile)
+        recyclerView = dialog.findViewById<FastScrollView>(R.id.recyclerViewProfile)
 
         loadImage()
 
-        recyclerView.layoutManager = GridLayoutManager(context, 3)
-        recyclerAdapter = GalleryDialogAdapter(context, uriArr)
-        recyclerView.adapter = recyclerAdapter
+        rvLayoutManager = GridLayoutManager(context, 3)
+        rvAdapter = GalleryDialogAdapter(context, uriArr)
+
+        recyclerView.apply {
+            setLayoutManager(rvLayoutManager)
+            setAdapter(rvAdapter)
+        }
+
         button_back = dialog.findViewById<Button>(R.id.btn_back)
         button_ok = dialog.findViewById<Button>(R.id.btn_ok)
 //
         dialog.show()
 
-        recyclerAdapter.setItemClickListener(object : GalleryDialogAdapter.OnItemClickListener{
+
+
+        rvAdapter.setItemClickListener(object : GalleryDialogAdapter.OnItemClickListener{
             override fun onClick(v: View, position : Int){
                 //uri 방해한거 풀기
 

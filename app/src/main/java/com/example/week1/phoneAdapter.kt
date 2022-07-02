@@ -1,18 +1,19 @@
 package com.example.week1
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
-import com.example.week1.databinding.FragmentContactBinding
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.week1.databinding.ItemViewBinding
 
 
-class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<phoneAdapter.ViewHolder>() {
+class phoneAdapter(
+    val context: ContactFragment,
+    private val items: ArrayList<Phone>
+    ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
 
@@ -28,6 +29,11 @@ class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<p
         }
         holder.itemView.setOnClickListener{
             itemClickListener.onClick(it, position)
+        }
+        val option1 = RequestOptions().circleCrop()
+
+        with(holder) {
+                Glide.with(context).load(item.img).centerCrop().apply(option1).into(binding.Image)
         }
     }
 
@@ -47,9 +53,10 @@ class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<p
     }
 
     // 각 항목에 필요한 기능을 구현
-    class ViewHolder(private var binding : ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(var binding : ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listener: View.OnClickListener, item: Phone) {
-            binding.Image.setImageURI(item.img.toUri())
+//            binding.Image.setImageURI(item.img.toUri())
+
             binding.Name.text = item.name
             binding.Number.text = item.number
         }
