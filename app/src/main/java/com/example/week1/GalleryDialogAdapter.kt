@@ -1,6 +1,7 @@
 package com.example.week1
 
 import android.content.Context
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,6 +23,9 @@ class GalleryDialogAdapter(
     inner class ViewHolder(val binding: GalleryItemBinding) : RecyclerView.ViewHolder(binding.root)
 
 
+    fun dpToPx(context: Context, dp: Float): Float {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = GalleryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -33,7 +37,7 @@ class GalleryDialogAdapter(
             with(imageList[position]){
                 val display = context.resources.displayMetrics
                 binding.galleryItem.padding = 2
-                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/3,display.widthPixels/3)
+                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(dpToPx(context, 105f).toInt(), dpToPx(context, 105f).toInt())
 
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }

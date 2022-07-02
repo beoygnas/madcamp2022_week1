@@ -34,7 +34,7 @@ class GalleryFragment : Fragment() {
 
     private lateinit var rvLayoutManager: GridLayoutManager
     private lateinit var rvAdapter: GalleryAdapter
-
+    private lateinit var uri : String
 
     private val uriArr: ArrayList<String> = ArrayList<String>()
     private val dateArr: ArrayList<Date> = ArrayList<Date>()
@@ -116,6 +116,14 @@ class GalleryFragment : Fragment() {
             setAdapter(rvAdapter)
         }
 
+        rvAdapter.setItemClickListener(object : GalleryAdapter.OnItemClickListener{
+            override fun onClick(v: View, position : Int){
+                uri = uriArr[position]
+
+                val dialog = ImageDialog(requireContext())
+                dialog.showDialog(uri)
+            }
+        })
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.week1
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.ImageView
@@ -66,9 +67,19 @@ class GalleryAdapter(
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
         }
-//        holder.itemView.setOnClickListener { listener(imageList[position], position) }
-//        println(holder.itemView)
+        holder.itemView.setOnClickListener {
+            itemClickListener.onClick(it, position)
+        }
     }
+    interface OnItemClickListener{
+        fun onClick(v: View, position:Int)
+    }
+
+    fun setItemClickListener(OnItemClickListener : OnItemClickListener){
+        this.itemClickListener = OnItemClickListener
+    }
+
+    private lateinit var itemClickListener : OnItemClickListener
 
     // return the size of languageList
     override fun getItemCount(): Int {
