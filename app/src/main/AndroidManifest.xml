@@ -11,7 +11,7 @@
         android:icon="@mipmap/ic_big_pikachu"
         android:roundIcon="@mipmap/ic_big_pikachu_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Week1"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
