@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
 import org.jetbrains.anko.support.v4.toast
@@ -24,11 +27,6 @@ import java.nio.channels.AsynchronousFileChannel.open
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -46,47 +44,12 @@ class ContactFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-
         var files : Array<String> = requireContext().fileList()
         if(!files.contains("contacts.json")){
             requireContext().openFileOutput("contacts.json", Context.MODE_PRIVATE).use{
             it.write("{\"contacts\" : []}".toByteArray())
             }
         }
-//        val filename = "contacts.json"
-//        var jsonstr : String
-
-//  assets json 읽기
-//        val assetManager = resources.assets
-//        val inputStream= assetManager.open("contacts.json")
-//        val jsonString = inputStream.bufferedReader().use { it.readText() }
-//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-//            it.write(jsonString.toByteArray())
-//        }
-//  파일 읽기
-//        requireContext().openFileInput(filename).use { stream ->
-//            val text = stream.bufferedReader().use { it.readText() }
-//            jsonstr = text
-//            Log.d("TAG", "LOADED: $jsonstr")
-//        }
-//  새로운 연락처 추가
-//        val jsonObject = JSONObject(jsonstr)
-//        val newcontactjson = JSONObject()
-//        newcontactjson.put("img", 2131165296)
-//        newcontactjson.put("name", "kimsangyeob")
-//        newcontactjson.put("number", "01026474429")
-//        jsonObject.accumulate("contacts", newcontactjson)
-
-//  파일 쓰기
-//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-//            it.write(jsonObject.toString().toByteArray())
-//            Log.d("TAG", "응애: $jsonObject.toString()")
-//        }
-
-//            얘네는 인자확인용 코드
-//            val contactsjsonObject = jsonArray.getJSONObject(1)
-//            val value = contactsjsonObject.getString("name")
-//            Log.d("TAG", value)
     }
 
     override fun onCreateView(
@@ -99,6 +62,7 @@ class ContactFragment : Fragment() {
         _dialogbinding = ContactDialogBinding.inflate(inflater, container, false)
         return binding.root
     }
+
 
     override fun onDestroyView() {
         _binding = null
@@ -175,6 +139,8 @@ class ContactFragment : Fragment() {
         val adapter = phoneAdapter(listfromjson)
         binding.phonelistview.adapter = adapter
 
+        var profilechange : String = "no"
+
         adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener{
             override fun onClick(v:View, position : Int){
                 var tmpimg = listfromjson[position].img
@@ -183,8 +149,22 @@ class ContactFragment : Fragment() {
 
                 val dialog = ContactDialog(requireContext())
                 dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                dialog.setOnClickListener(object : ContactDialog.BtnClickListener{
+                    override fun onClicked(change: String) {
+                        profilechange = change
+                        val transaction = requireActivity().supportFragmentManager.beginTransaction().replace(R.id.tmp, ProfilegalleryFragment())
+                        transaction.addToBackStack(null)
+                        transaction.commit()
+                        Toast.makeText(context, profilechange, Toast.LENGTH_SHORT).show()
+                    }
+                })
             }
         })
+
+//        if(profilechange == "yes"){
+//            Log.d("String" , "yesyesyes")
+//
+//        }
     }
     companion object {
         // TODO: Rename and change types and number of parameters

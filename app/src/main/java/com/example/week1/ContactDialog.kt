@@ -16,9 +16,9 @@ class ContactDialog(context: Context) {
     private lateinit var textView_number : TextView
     private lateinit var button_back : Button
     private lateinit var button_profile : Button
-    private lateinit var onClickListener: OnDialogClickListener
+    private lateinit var onClickListener: BtnClickListener
 
-    fun setOnClickListener(listener: OnDialogClickListener)
+    fun setOnClickListener(listener: BtnClickListener)
     {
         onClickListener = listener
     }
@@ -29,6 +29,7 @@ class ContactDialog(context: Context) {
         dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
+
 
         imageView_img = dialog.findViewById<ImageView>(R.id.dialog_img)
         textView_name = dialog.findViewById<TextView>(R.id.dialog_name)
@@ -44,7 +45,7 @@ class ContactDialog(context: Context) {
         dialog.show()
 
         button_profile.setOnClickListener {
-
+            onClickListener.onClicked("yes")
             dialog.dismiss()
         }
 //
@@ -53,9 +54,9 @@ class ContactDialog(context: Context) {
         }
     }
 
-    interface OnDialogClickListener
+    interface BtnClickListener
     {
-        fun onClicked(name: String)
+        fun onClicked(change: String)
     }
 
 }
