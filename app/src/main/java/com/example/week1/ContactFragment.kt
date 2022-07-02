@@ -7,15 +7,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
-import com.google.gson.GsonBuilder
-import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONArray
-import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -78,6 +75,8 @@ class ContactFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
+        binding.phonelistview.addItemDecoration(DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL))
+
         binding.refreshContact.setOnRefreshListener {
             toast("Refreshed!!")
             requireActivity().recreate()
@@ -113,84 +112,84 @@ class ContactFragment : Fragment() {
         // 내부저장소와 연락처 동기화  ========================================================= //
         // 내부저장소에 없는 연락처를 추가해줌.
 
-            val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+        val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
 
-            val projections = arrayOf(
-                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-                , ContactsContract.CommonDataKinds.Phone.NUMBER)
+        val projections = arrayOf(
+            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+            , ContactsContract.CommonDataKinds.Phone.NUMBER)
 
-            var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
+        var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
 
-            while(cursor?.moveToNext()?:false) {
+        while(cursor?.moveToNext()?:false) {
 
-                var name = cursor?.getString(0).orEmpty()
-                var number = cursor?.getString(1).orEmpty()
+            var name = cursor?.getString(0).orEmpty()
+            var number = cursor?.getString(1).orEmpty()
 
-                if (!namelist.contains(name)) {
-                    // json에 연락처 추가
-                    val jsonObject = JSONObject(jsonstr)
-                    val newcontactjson = JSONObject()
+            if (!namelist.contains(name)) {
+                // json에 연락처 추가
+                val jsonObject = JSONObject(jsonstr)
+                val newcontactjson = JSONObject()
 
-                    var imageUri: String = "android.resource://com.example.week1/" + R.drawable.img
+                var imageUri: String = "android.resource://com.example.week1/" + R.drawable.img
 
-                    newcontactjson.put("img", imageUri)
-                    newcontactjson.put("name", name)
-                    newcontactjson.put("number", number)
-                    jsonObject.accumulate("contacts", newcontactjson)
-                    requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use {
-                        it.write(jsonObject.toString().toByteArray())
-                    }
-                    // jsonlist에 추가
-                    val phone = Phone(imageUri, name, number)
-                    listfromjson.add(phone)
+                newcontactjson.put("img", imageUri)
+                newcontactjson.put("name", name)
+                newcontactjson.put("number", number)
+                jsonObject.accumulate("contacts", newcontactjson)
+                requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use {
+                    it.write(jsonObject.toString().toByteArray())
                 }
-
-                val adapter = phoneAdapter(listfromjson)
-                binding.phonelistview.adapter = adapter
-
-                adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {
-                    override fun onClick(v: View, position: Int) {
-                        var tmpimg = listfromjson[position].img
-                        var tmpname = listfromjson[position].name
-                        var tmpnumber = listfromjson[position].number
-
-                        val dialog = ContactDialog(requireContext())
-                        dialog.showDialog(tmpimg, tmpname, tmpnumber)
-                        dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
-                            override fun onClicked(change: String) {
-                                val dialog2 = GalleryDialog(requireContext())
-                                dialog2.showDialog()
-                                dialog2.setOnClickListener(object :
-                                    GalleryDialog.itemClickListener {
-                                    override fun onClicked(uri: String) {
-                                        listfromjson[position].img = uri
-
-                                        val jsonObjectlist = JSONArray()
-                                        for (index in 0 until listfromjson.size) {
-                                            val phoneobj = listfromjson[index]
-                                            val newcontactjson = JSONObject()
-                                            newcontactjson.put("img", phoneobj.img)
-                                            newcontactjson.put("name", phoneobj.name)
-                                            newcontactjson.put("number", phoneobj.number)
-                                            jsonObjectlist.put(newcontactjson)
-                                        }
-                                        val jsonObject = JSONObject()
-                                        jsonObject.put("contacts", jsonObjectlist)
-                                        requireContext().openFileOutput(
-                                            filename,
-                                            Context.MODE_PRIVATE
-                                        ).use {
-                                            it.write(jsonObject.toString().toByteArray())
-                                        }
-                                        requireActivity().recreate()
-                                    }
-                                })
-
-                            }
-                        })
-                    }
-                })
+                // jsonlist에 추가
+                val phone = Phone(imageUri, name, number)
+                listfromjson.add(phone)
             }
+
+            val adapter = phoneAdapter(listfromjson)
+            binding.phonelistview.adapter = adapter
+
+            adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    var tmpimg = listfromjson[position].img
+                    var tmpname = listfromjson[position].name
+                    var tmpnumber = listfromjson[position].number
+
+                    val dialog = ContactDialog(requireContext())
+                    dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                    dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
+                        override fun onClicked(change: String) {
+                            val dialog2 = GalleryDialog(requireContext())
+                            dialog2.showDialog()
+                            dialog2.setOnClickListener(object :
+                                GalleryDialog.itemClickListener {
+                                override fun onClicked(uri: String) {
+                                    listfromjson[position].img = uri
+
+                                    val jsonObjectlist = JSONArray()
+                                    for (index in 0 until listfromjson.size) {
+                                        val phoneobj = listfromjson[index]
+                                        val newcontactjson = JSONObject()
+                                        newcontactjson.put("img", phoneobj.img)
+                                        newcontactjson.put("name", phoneobj.name)
+                                        newcontactjson.put("number", phoneobj.number)
+                                        jsonObjectlist.put(newcontactjson)
+                                    }
+                                    val jsonObject = JSONObject()
+                                    jsonObject.put("contacts", jsonObjectlist)
+                                    requireContext().openFileOutput(
+                                        filename,
+                                        Context.MODE_PRIVATE
+                                    ).use {
+                                        it.write(jsonObject.toString().toByteArray())
+                                    }
+                                    requireActivity().recreate()
+                                }
+                            })
+
+                        }
+                    })
+                }
+            })
+        }
     }
     companion object {
         // TODO: Rename and change types and number of parameters
