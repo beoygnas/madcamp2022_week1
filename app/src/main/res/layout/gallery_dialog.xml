@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,20 +9,20 @@
     tools:context=".GalleryFragment">
 
 
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewProfile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/gallery_item"
+        android:layout_width="315dp"
+        android:layout_height="600dp"
         app:fastScrollEnabled="true"
         app:fastScrollHorizontalThumbDrawable="@drawable/thumb_drawable"
         app:fastScrollHorizontalTrackDrawable="@drawable/line_drawable"
         app:fastScrollVerticalThumbDrawable="@drawable/thumb_drawable"
-        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"/>
+        app:fastScrollVerticalTrackDrawable="@drawable/line_drawable"
+        tools:listitem="@layout/gallery_item" />
 
 
     <LinearLayout
+        app:layout_constraintBottom_toBottomOf="@id/recyclerViewProfile"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="center"
@@ -45,4 +45,6 @@
 
     </LinearLayout>
 
-</FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
