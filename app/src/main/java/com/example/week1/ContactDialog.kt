@@ -44,7 +44,7 @@ class ContactDialog(context: Context) {
         button_back = dialog.findViewById<Button>(R.id.btn_back)
         button_call = dialog.findViewById<Button>(R.id.btn_call)
 
-        Log.d("img", "img = " + img)
+//        Log.d("img", "img = " + img)
         val option1 = RequestOptions().circleCrop()
         Glide.with(context).load(img).centerCrop().apply(option1).into(imageView_img)
 //        imageView_img.setImageURI(img.toUri())
