@@ -7,6 +7,7 @@ import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 
 class ContactDialog(context: Context) {
 
@@ -23,7 +24,7 @@ class ContactDialog(context: Context) {
         onClickListener = listener
     }
 
-    fun showDialog(img : Int, name:String, number:String)
+    fun showDialog(img : String, name:String, number:String)
     {
         dialog.setContentView(R.layout.contact_dialog)
         dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
@@ -38,7 +39,7 @@ class ContactDialog(context: Context) {
         button_profile = dialog.findViewById<Button>(R.id.btn_profile)
 
         Log.d("img", "img = " + img)
-        imageView_img.setImageResource(img)
+        imageView_img.setImageURI(img.toUri())
         textView_name.text = name
         textView_number.text = number
 

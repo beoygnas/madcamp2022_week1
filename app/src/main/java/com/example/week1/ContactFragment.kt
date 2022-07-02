@@ -1,26 +1,20 @@
 package com.example.week1
 
+import android.R
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.res.AssetManager
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
 import org.jetbrains.anko.support.v4.toast
-import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.nio.channels.AsynchronousFileChannel.open
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,6 +54,9 @@ class ContactFragment : Fragment() {
 //        return inflater.inflate(R.layout.fragment_contact, container, false)
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         _dialogbinding = ContactDialogBinding.inflate(inflater, container, false)
+
+
+
         return binding.root
     }
 
@@ -96,7 +93,7 @@ class ContactFragment : Fragment() {
 
         for(index in 0 until jsonary.length()){
             val jsonobj = jsonary.getJSONObject(index)
-            val img = jsonobj.getInt("img")
+            val img = jsonobj.getString("img")
             val name = jsonobj.getString("name")
             val number = jsonobj.getString("number")
             val phone = Phone(img, name, number)
@@ -124,22 +121,24 @@ class ContactFragment : Fragment() {
                 // json에 연락처 추가
                 val jsonObject = JSONObject(jsonstr)
                 val newcontactjson = JSONObject()
-                newcontactjson.put("img", R.drawable.img)
+                var imageUri : String = "assets://img.png"
+
+                R.drawable.img
+
+                newcontactjson.put("img", imageUri)
                 newcontactjson.put("name", name)
                 newcontactjson.put("number", number)
                 jsonObject.accumulate("contacts", newcontactjson)
                 requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
                 it.write(jsonObject.toString().toByteArray()) }
                 // jsonlist에 추가
-                val phone = Phone(R.drawable.img, name, number)
+                val phone = Phone(imageUri, name, number)
                 listfromjson.add(phone)
             }
         }
 
         val adapter = phoneAdapter(listfromjson)
         binding.phonelistview.adapter = adapter
-
-        var profilechange : String = "no"
 
         adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener{
             override fun onClick(v:View, position : Int){
@@ -151,20 +150,29 @@ class ContactFragment : Fragment() {
                 dialog.showDialog(tmpimg, tmpname, tmpnumber)
                 dialog.setOnClickListener(object : ContactDialog.BtnClickListener{
                     override fun onClicked(change: String) {
-                        profilechange = change
-                        val transaction = requireActivity().supportFragmentManager.beginTransaction().replace(R.id.tmp, ProfilegalleryFragment())
-                        transaction.addToBackStack(null)
-                        transaction.commit()
-                        Toast.makeText(context, profilechange, Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, change, Toast.LENGTH_SHORT).show()
+                        val dialog2 = GalleryDialog(requireContext())
+                        dialog2.showDialog()
+                        dialog2.setOnClickListener(object : GalleryDialog.itemClickListener{
+                            override fun onClicked(uri: String) {
+                                Toast.makeText(context, uri, Toast.LENGTH_SHORT).show()
+
+
+
+
+
+
+
+
+
+                            }
+                        })
+
                     }
                 })
             }
         })
 
-//        if(profilechange == "yes"){
-//            Log.d("String" , "yesyesyes")
-//
-//        }
     }
     companion object {
         // TODO: Rename and change types and number of parameters
