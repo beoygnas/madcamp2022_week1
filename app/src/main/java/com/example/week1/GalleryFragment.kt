@@ -7,12 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.week1.databinding.ActivityMainBinding
 import com.example.week1.databinding.FragmentGalleryBinding
 import org.jetbrains.anko.support.v4.toast
+import java.sql.Date
+
+import kotlin.collections.ArrayList
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,22 +31,21 @@ class GalleryFragment : Fragment() {
 
     private var _binding: FragmentGalleryBinding? = null
     private val binding get() = _binding!!
-    //
-    private var _activityBinding: ActivityMainBinding? = null
-    private val activityBinding get() = _activityBinding!!
 
+    private lateinit var rvLayoutManager: GridLayoutManager
     private lateinit var rvAdapter: GalleryAdapter
-//    private lateinit var imageList : List<Image>
+
 
     private val uriArr: ArrayList<String> = ArrayList<String>()
+    private val dateArr: ArrayList<Date> = ArrayList<Date>()
 
 //    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
 //        var ft: FragmentTransaction = fragmentManager.beginTransaction()
 //        ft.detach(fragment).attach(fragment).commit()
 //    }
     private fun loadImage() {
-//        Log.d("Check", "LoadImage called")
-//        uriArr = ArrayList<String>()
+
+
         val cursor = requireActivity().contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             null,
@@ -60,6 +59,9 @@ class GalleryFragment : Fragment() {
                 // 사진 경로 Uri 가져오기
                 val uri = cursor.getString(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA))
                 uriArr.add(uri)
+                val date = Date(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)))
+                dateArr.add(date)
+                Log.d("Date ############    ", date.toString())
 //                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
@@ -81,14 +83,12 @@ class GalleryFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
-        _activityBinding = ActivityMainBinding.inflate(layoutInflater)
 
         return binding.root
     }
 
     override fun onDestroyView() {
         _binding = null
-        _activityBinding = null
         super.onDestroyView()
     }
 
@@ -134,9 +134,14 @@ class GalleryFragment : Fragment() {
         loadImage()
         // Change spanCount for number of columns
         val spanCount: Int = 3
-        binding.recyclerView.layoutManager = GridLayoutManager(context, spanCount)
-        rvAdapter = GalleryAdapter(this, uriArr, spanCount)
-        binding.recyclerView.adapter = rvAdapter
+        rvLayoutManager = GridLayoutManager(context, spanCount)
+        rvAdapter = GalleryAdapter(this, uriArr, dateArr, spanCount)
+        binding.recyclerView.apply {
+            setLayoutManager(rvLayoutManager)
+            setAdapter(rvAdapter)
+        }
+
+
     }
 
     companion object {

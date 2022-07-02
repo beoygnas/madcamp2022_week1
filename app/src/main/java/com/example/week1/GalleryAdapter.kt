@@ -10,16 +10,27 @@ import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.week1.databinding.GalleryItemBinding
+import com.l4digital.fastscroll.FastScroller
 import org.jetbrains.anko.padding
+import java.sql.Date
 
 class GalleryAdapter(
 //    var imageList: List<Image>,
 //    private val listener: (Image, Int) -> Unit
     val context: GalleryFragment,
     var imageList: List<String>,
+    var dateArr: ArrayList<Date>,
     val spanCount: Int,
-) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>(), FastScroller.SectionIndexer {
 
+    private fun getItem(position: Int):Any {
+        return imageList[position]
+    }
+    private fun getItemDate(position: Int):Any {
+        return dateArr[position]
+    }
+
+    override fun getSectionText(position: Int) = getItemDate(position).toString()
     // create an inner class with name ViewHolder
     // It takes a view argument, in which pass the generated class of single_item.xml
     // ie SingleItemBinding and in the RecyclerView.ViewHolder(binding.root) pass it like this
