@@ -44,6 +44,7 @@ class ContactDialog(context: Context) {
         dialog.show()
 
         button_profile.setOnClickListener {
+
             dialog.dismiss()
         }
 //

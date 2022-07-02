@@ -53,8 +53,8 @@ class ContactFragment : Fragment() {
             it.write("{\"contacts\" : []}".toByteArray())
             }
         }
-        val filename = "contacts.json"
-        var jsonstr : String
+//        val filename = "contacts.json"
+//        var jsonstr : String
 
 //  assets json 읽기
 //        val assetManager = resources.assets
