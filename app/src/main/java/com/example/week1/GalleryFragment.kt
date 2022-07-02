@@ -61,7 +61,7 @@ class GalleryFragment : Fragment() {
                 uriArr.add(uri)
                 val date = Date(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)))
                 dateArr.add(date)
-                Log.d("Date ############    ", date.toString())
+//                Log.d("Date ############    ", date.toString())
 //                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
