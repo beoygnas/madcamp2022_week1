@@ -1,6 +1,5 @@
 package com.example.week1
 
-import android.R
 import android.content.Context
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -12,7 +11,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -55,8 +58,6 @@ class ContactFragment : Fragment() {
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         _dialogbinding = ContactDialogBinding.inflate(inflater, container, false)
 
-
-
         return binding.root
     }
 
@@ -66,6 +67,7 @@ class ContactFragment : Fragment() {
         _dialogbinding = null
         super.onDestroyView()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -121,9 +123,8 @@ class ContactFragment : Fragment() {
                 // json에 연락처 추가
                 val jsonObject = JSONObject(jsonstr)
                 val newcontactjson = JSONObject()
-                var imageUri : String = "assets://img.png"
 
-                R.drawable.img
+                var imageUri : String = "android.resource://com.example.week1/" + R.drawable.img
 
                 newcontactjson.put("img", imageUri)
                 newcontactjson.put("name", name)
@@ -150,21 +151,26 @@ class ContactFragment : Fragment() {
                 dialog.showDialog(tmpimg, tmpname, tmpnumber)
                 dialog.setOnClickListener(object : ContactDialog.BtnClickListener{
                     override fun onClicked(change: String) {
-                        Toast.makeText(context, change, Toast.LENGTH_SHORT).show()
                         val dialog2 = GalleryDialog(requireContext())
                         dialog2.showDialog()
                         dialog2.setOnClickListener(object : GalleryDialog.itemClickListener{
                             override fun onClicked(uri: String) {
-                                Toast.makeText(context, uri, Toast.LENGTH_SHORT).show()
+                                listfromjson[position].img = uri
 
-
-
-
-
-
-
-
-
+                                val jsonObjectlist = JSONArray()
+                                for(index in 0 until listfromjson.size){
+                                    val phoneobj = listfromjson[index]
+                                    val newcontactjson = JSONObject()
+                                    newcontactjson.put("img", phoneobj.img)
+                                    newcontactjson.put("name", phoneobj.name)
+                                    newcontactjson.put("number", phoneobj.number)
+                                    jsonObjectlist.put(newcontactjson)
+                                }
+                                val jsonObject = JSONObject()
+                                jsonObject.put("contacts", jsonObjectlist)
+                                requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
+                                    it.write(jsonObject.toString().toByteArray()) }
+                                requireActivity().recreate()
                             }
                         })
 

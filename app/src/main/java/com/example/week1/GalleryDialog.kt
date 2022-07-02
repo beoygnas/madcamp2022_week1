@@ -71,7 +71,6 @@ class GalleryDialog(context: Context) {
         recyclerAdapter.setItemClickListener(object : GalleryDialogAdapter.OnItemClickListener{
             override fun onClick(v: View, position : Int){
                 uri = uriArr[position]
-                Toast.makeText(context, uri, Toast.LENGTH_SHORT).show()
             }
         })
 
