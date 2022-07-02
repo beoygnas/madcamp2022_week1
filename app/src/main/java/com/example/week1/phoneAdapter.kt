@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
 import com.example.week1.databinding.FragmentContactBinding
 import com.example.week1.databinding.ItemViewBinding
@@ -48,7 +49,7 @@ class phoneAdapter(private val items: ArrayList<Phone>) : RecyclerView.Adapter<p
     // 각 항목에 필요한 기능을 구현
     class ViewHolder(private var binding : ItemViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listener: View.OnClickListener, item: Phone) {
-            binding.Image.setImageResource(item.img)
+            binding.Image.setImageURI(item.img.toUri())
             binding.Name.text = item.name
             binding.Number.text = item.number
         }
