@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity() {
     val MY_PERMISSION_ACCESS_ALL = 100
     var permissions = arrayOf(
         android.Manifest.permission.READ_CONTACTS,
-        android.Manifest.permission.READ_EXTERNAL_STORAGE
+        android.Manifest.permission.READ_EXTERNAL_STORAGE,
+        android.Manifest.permission.CALL_PHONE
         // For future Permissions
     )
 

@@ -2,11 +2,14 @@ package com.example.week1
 
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
@@ -56,6 +59,13 @@ class ContactDialog(context: Context) {
         }
 
         button_call.setOnClickListener {
+            val uri = Uri.parse("tel:"+ number)
+            var intent = Intent(Intent.ACTION_DIAL, uri)
+//            Log.d("phone", "tel:"+ number)
+
+            if(intent.resolveActivity(context.packageManager) != null){
+                context.startActivity(intent)
+            }
             dialog.dismiss()
         }
 //
