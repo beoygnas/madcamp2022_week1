@@ -19,7 +19,7 @@ class ContactDialog(context: Context) {
     private lateinit var textView_name : TextView
     private lateinit var textView_number : TextView
     private lateinit var button_back : Button
-    private lateinit var button_profile : Button
+    private lateinit var button_call : Button
     private lateinit var onClickListener: BtnClickListener
 
     fun setOnClickListener(listener: BtnClickListener)
@@ -39,7 +39,7 @@ class ContactDialog(context: Context) {
         textView_name = dialog.findViewById<TextView>(R.id.dialog_name)
         textView_number = dialog.findViewById<TextView>(R.id.dialog_number)
         button_back = dialog.findViewById<Button>(R.id.btn_back)
-        button_profile = dialog.findViewById<Button>(R.id.btn_profile)
+        button_call = dialog.findViewById<Button>(R.id.btn_call)
 
         Log.d("img", "img = " + img)
         val option1 = RequestOptions().circleCrop()
@@ -50,8 +50,12 @@ class ContactDialog(context: Context) {
 
         dialog.show()
 
-        button_profile.setOnClickListener {
+        imageView_img.setOnClickListener{
             onClickListener.onClicked("yes")
+            dialog.dismiss()
+        }
+
+        button_call.setOnClickListener {
             dialog.dismiss()
         }
 //

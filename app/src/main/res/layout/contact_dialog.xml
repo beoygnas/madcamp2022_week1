@@ -17,6 +17,7 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:gravity="center"
+        android:textStyle = "bold"
         android:text="TextView" />
 
     <TextView
@@ -26,6 +27,7 @@
         android:textSize="20sp"
         android:textAlignment="center"
         android:gravity="center"
+        android:textStyle = "bold"
         android:text="TextView" />
 
     <LinearLayout
@@ -36,11 +38,11 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_profile"
+            android:id="@+id/btn_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="프로필 바꾸기" />
+            android:text="전화" />
 
         <Button
             android:id="@+id/btn_back"

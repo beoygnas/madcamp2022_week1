@@ -144,6 +144,8 @@ class ContactFragment : Fragment() {
                 listfromjson.add(phone)
             }
 
+            listfromjson.sortBy{it.name}
+
             val adapter = phoneAdapter(this, listfromjson)
             binding.phonelistview.adapter = adapter
 
