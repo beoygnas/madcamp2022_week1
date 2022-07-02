@@ -27,6 +27,7 @@ class GalleryFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentGalleryBinding? = null
+
     private val binding get() = _binding!!
 
     private lateinit var rvAdapter: GalleryAdapter
@@ -90,6 +91,17 @@ class GalleryFragment : Fragment() {
             // For basic swiperefreshlayout
             binding.refreshGallery.isRefreshing = false
         }
+//        // Connect the recycler to the scroller (to let the scroller scroll the list)
+//        binding.fastScroller.setRecyclerView(binding.recyclerView)
+//
+//        // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
+//        binding.recyclerView.setOnScrollChangeListener(binding.fastScroller.onScrollListener)
+
+        // 쓰크롤 시 스와이핑 막기 구현하기
+//        binding.recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
+//            if (scrollX != oldScrollX || scrollY != oldScrollY)
+//                .setUserInputEnabled(false);
+//        }
         loadImage()
         binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
 //        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos

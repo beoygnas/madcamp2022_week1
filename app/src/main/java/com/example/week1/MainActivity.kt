@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if (requestCode === MY_PERMISSION_ACCESS_ALL) {
+        if (requestCode == MY_PERMISSION_ACCESS_ALL) {
             if(grantResults.isNotEmpty()) {
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) showPermissionExplanationDialog() //System.exit(0) //toast("권한 거부 됨")
