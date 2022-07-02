@@ -1,6 +1,7 @@
 package com.example.week1
 
 import android.content.Context
+import android.graphics.Color
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +18,13 @@ import org.jetbrains.anko.padding
 
 class GalleryDialogAdapter(
     val context: Context,
-    var imageList: List<String>,
+    var imageList: List<String>
 ) : RecyclerView.Adapter<GalleryDialogAdapter.ViewHolder>() {
 
     inner class ViewHolder(val binding: GalleryItemBinding) : RecyclerView.ViewHolder(binding.root)
+
+
+    var previmageview : ImageView ?= null
 
     fun dpToPx(context: Context, dp: Float): Float {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.resources.displayMetrics)
@@ -37,12 +41,17 @@ class GalleryDialogAdapter(
                 val display = context.resources.displayMetrics
                 binding.galleryItem.padding = 2
                 binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(dpToPx(context, 110f).toInt(), dpToPx(context, 110f).toInt())
-
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
         }
 
         holder.itemView.setOnClickListener{
+
+            var imgview = it.findViewById<ImageView>(R.id.gallery_item)
+            imgview.setColorFilter(Color.parseColor("#80000000"))
+
+            previmageview?.setColorFilter(null)
+            previmageview = imgview
             itemClickListener.onClick(it, position)
         }
     }
