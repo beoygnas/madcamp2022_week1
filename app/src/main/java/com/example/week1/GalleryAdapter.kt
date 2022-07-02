@@ -49,18 +49,20 @@ class GalleryAdapter(
     // shown in recycler view
     // to keep it simple we are
     // not setting any image data to view
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+
         with(holder){
             with(imageList[position]){
 //                binding.galleryItem.setImageResource(this.img)
 //                Log.d("Uri:################ ", this)
-                // Original without Glide
-//                binding.galleryItem.setImageURI(this.toUri())
                 val display = context.resources.displayMetrics
 //
                 binding.galleryItem.padding = 2
                 binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/spanCount,display.widthPixels/spanCount)
 
+                // Original without Glide
+//                binding.galleryItem.setImageURI(this.toUri())
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
         }

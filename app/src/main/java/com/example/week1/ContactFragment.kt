@@ -1,23 +1,20 @@
 package com.example.week1
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.res.AssetManager
+import android.icu.lang.UCharacter
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
 import org.jetbrains.anko.support.v4.toast
-import org.json.JSONArray
 import org.json.JSONObject
-import java.io.File
-import java.io.FileOutputStream
-import java.nio.channels.AsynchronousFileChannel.open
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,6 +35,13 @@ class ContactFragment : Fragment() {
     private var _dialogbinding : ContactDialogBinding?= null
     private val binding get() = _binding!!
     private val dialogbinding get() = _dialogbinding!!
+
+    lateinit var mainActivity: MainActivity
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -185,6 +189,11 @@ class ContactFragment : Fragment() {
                 dialog.showDialog(tmpimg, tmpname, tmpnumber)
             }
         })
+
+
+        binding.phonelistview.addItemDecoration(
+            DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL)
+        )
     }
     companion object {
         // TODO: Rename and change types and number of parameters
