@@ -7,7 +7,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.week1.databinding.ActivityMainBinding
 import com.example.week1.databinding.FragmentGalleryBinding
 import org.jetbrains.anko.support.v4.toast
 
@@ -27,14 +30,20 @@ class GalleryFragment : Fragment() {
     private var param2: String? = null
 
     private var _binding: FragmentGalleryBinding? = null
-
     private val binding get() = _binding!!
+    //
+    private var _activityBinding: ActivityMainBinding? = null
+    private val activityBinding get() = _activityBinding!!
 
     private lateinit var rvAdapter: GalleryAdapter
 //    private lateinit var imageList : List<Image>
 
     private val uriArr: ArrayList<String> = ArrayList<String>()
 
+//    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
+//        var ft: FragmentTransaction = fragmentManager.beginTransaction()
+//        ft.detach(fragment).attach(fragment).commit()
+//    }
     private fun loadImage() {
 //        Log.d("Check", "LoadImage called")
 //        uriArr = ArrayList<String>()
@@ -72,12 +81,14 @@ class GalleryFragment : Fragment() {
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_gallery, container, false)
         _binding = FragmentGalleryBinding.inflate(inflater, container, false)
+        _activityBinding = ActivityMainBinding.inflate(layoutInflater)
 
         return binding.root
     }
 
     override fun onDestroyView() {
         _binding = null
+        _activityBinding = null
         super.onDestroyView()
     }
 
@@ -86,6 +97,8 @@ class GalleryFragment : Fragment() {
         binding.refreshGallery.setOnRefreshListener {
             toast("Refreshed!!")
             requireActivity().recreate()
+//            refreshFragment(this, parentFragmentManager)
+
             // For library
 //            binding.refreshGallery.setRefreshing(false)
             // For basic swiperefreshlayout
@@ -97,15 +110,32 @@ class GalleryFragment : Fragment() {
 //        // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
 //        binding.recyclerView.setOnScrollChangeListener(binding.fastScroller.onScrollListener)
 
-        // 쓰크롤 시 스와이핑 막기 구현하기
-//        binding.recyclerView.setOnScrollChangeListener { v, scrollX, scrollY, oldScrollX, oldScrollY ->
-//            if (scrollX != oldScrollX || scrollY != oldScrollY)
-//                .setUserInputEnabled(false);
+        // 스크롤 시 스와이핑 막기 구현하기
+//        val onScrollListener = object: RecyclerView.OnScrollListener() {
+//            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+//                super.onScrollStateChanged(recyclerView, newState)
+//                if (newState == SCROLL_STATE_DRAGGING) {
+//                    activityBinding.viewpager.isUserInputEnabled = false;
+//                    Log.d("Scroll", "#########     DRAGGING")
+//                }
+//            }
+//
 //        }
+//
+//
+//        binding.recyclerView.addOnScrollListener (onScrollListener)
+
+
+//        activityBinding.viewpager.isUserInputEnabled = false;
+//        binding.recyclerView.scrollBarStyle
+//        if (binding.recyclerView.isVerticalScrollBarEnabled == true)
+//            Log.d("Scroll", "#########     DRAGGING")
+
         loadImage()
-        binding.recyclerView.layoutManager = GridLayoutManager(context, 3)
-//        Log.d("Uri: ", uriArr) : Doesn't work when there is no photo, it works fine with photos
-        rvAdapter = GalleryAdapter(this, uriArr)
+        // Change spanCount for number of columns
+        val spanCount: Int = 3
+        binding.recyclerView.layoutManager = GridLayoutManager(context, spanCount)
+        rvAdapter = GalleryAdapter(this, uriArr, spanCount)
         binding.recyclerView.adapter = rvAdapter
     }
 

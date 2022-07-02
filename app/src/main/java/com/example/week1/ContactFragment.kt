@@ -143,34 +143,34 @@ class ContactFragment : Fragment() {
         // 내부저장소와 연락처 동기화  ========================================================= //
         // 내부저장소에 없는 연락처를 추가해줌.
 
-        val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
+            val listurl = ContactsContract.CommonDataKinds.Phone.CONTENT_URI
 
-        val projections = arrayOf(
-            ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
-            , ContactsContract.CommonDataKinds.Phone.NUMBER)
+            val projections = arrayOf(
+                ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME
+                , ContactsContract.CommonDataKinds.Phone.NUMBER)
 
-        var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
+            var cursor = requireActivity().contentResolver.query(listurl, projections, null, null, null)
 
-        while(cursor?.moveToNext()?:false) {
+            while(cursor?.moveToNext()?:false) {
 
-            var name = cursor?.getString(0).orEmpty()
-            var number = cursor?.getString(1).orEmpty()
+                var name = cursor?.getString(0).orEmpty()
+                var number = cursor?.getString(1).orEmpty()
 
-            if(!namelist.contains(name)){
-                // json에 연락처 추가
-                val jsonObject = JSONObject(jsonstr)
-                val newcontactjson = JSONObject()
-                newcontactjson.put("img", R.drawable.img)
-                newcontactjson.put("name", name)
-                newcontactjson.put("number", number)
-                jsonObject.accumulate("contacts", newcontactjson)
-                requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-                it.write(jsonObject.toString().toByteArray()) }
-                // jsonlist에 추가
-                val phone = Phone(R.drawable.img, name, number)
-                listfromjson.add(phone)
+                if(!namelist.contains(name)){
+                    // json에 연락처 추가
+                    val jsonObject = JSONObject(jsonstr)
+                    val newcontactjson = JSONObject()
+                    newcontactjson.put("img", R.drawable.img)
+                    newcontactjson.put("name", name)
+                    newcontactjson.put("number", number)
+                    jsonObject.accumulate("contacts", newcontactjson)
+                    requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
+                    it.write(jsonObject.toString().toByteArray()) }
+                    // jsonlist에 추가
+                    val phone = Phone(R.drawable.img, name, number)
+                    listfromjson.add(phone)
+                }
             }
-        }
 
         val adapter = phoneAdapter(listfromjson)
         binding.phonelistview.adapter = adapter

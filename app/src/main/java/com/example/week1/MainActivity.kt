@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         binding.viewpager.apply {
             adapter = MyPagerAdapter(context as FragmentActivity)
         }
-
+//        binding.viewpager.isUserInputEnabled = false;
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             when (position) {
                 0 -> {

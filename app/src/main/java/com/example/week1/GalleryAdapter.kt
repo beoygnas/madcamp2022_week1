@@ -17,6 +17,7 @@ class GalleryAdapter(
 //    private val listener: (Image, Int) -> Unit
     val context: GalleryFragment,
     var imageList: List<String>,
+    val spanCount: Int,
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>() {
 
     // create an inner class with name ViewHolder
@@ -47,7 +48,7 @@ class GalleryAdapter(
                 val display = context.resources.displayMetrics
 //
                 binding.galleryItem.padding = 2
-                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/3,display.widthPixels/3)
+                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/spanCount,display.widthPixels/spanCount)
 
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
