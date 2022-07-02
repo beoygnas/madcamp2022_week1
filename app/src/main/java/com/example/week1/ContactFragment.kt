@@ -1,18 +1,21 @@
 package com.example.week1
 
 import android.content.Context
-import android.icu.lang.UCharacter
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
+import com.google.gson.GsonBuilder
+import com.google.gson.reflect.TypeToken
 import org.jetbrains.anko.support.v4.toast
+import org.json.JSONArray
+import org.json.JSONException
 import org.json.JSONObject
 
 
@@ -21,11 +24,6 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [ContactFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class ContactFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -50,47 +48,12 @@ class ContactFragment : Fragment() {
             param2 = it.getString(ARG_PARAM2)
         }
 
-
         var files : Array<String> = requireContext().fileList()
         if(!files.contains("contacts.json")){
             requireContext().openFileOutput("contacts.json", Context.MODE_PRIVATE).use{
             it.write("{\"contacts\" : []}".toByteArray())
             }
         }
-//        val filename = "contacts.json"
-//        var jsonstr : String
-
-//  assets json 읽기
-//        val assetManager = resources.assets
-//        val inputStream= assetManager.open("contacts.json")
-//        val jsonString = inputStream.bufferedReader().use { it.readText() }
-//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-//            it.write(jsonString.toByteArray())
-//        }
-//  파일 읽기
-//        requireContext().openFileInput(filename).use { stream ->
-//            val text = stream.bufferedReader().use { it.readText() }
-//            jsonstr = text
-//            Log.d("TAG", "LOADED: $jsonstr")
-//        }
-//  새로운 연락처 추가
-//        val jsonObject = JSONObject(jsonstr)
-//        val newcontactjson = JSONObject()
-//        newcontactjson.put("img", 2131165296)
-//        newcontactjson.put("name", "kimsangyeob")
-//        newcontactjson.put("number", "01026474429")
-//        jsonObject.accumulate("contacts", newcontactjson)
-
-//  파일 쓰기
-//        requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-//            it.write(jsonObject.toString().toByteArray())
-//            Log.d("TAG", "응애: $jsonObject.toString()")
-//        }
-
-//            얘네는 인자확인용 코드
-//            val contactsjsonObject = jsonArray.getJSONObject(1)
-//            val value = contactsjsonObject.getString("name")
-//            Log.d("TAG", value)
     }
 
     override fun onCreateView(
@@ -101,14 +64,17 @@ class ContactFragment : Fragment() {
 //        return inflater.inflate(R.layout.fragment_contact, container, false)
         _binding = FragmentContactBinding.inflate(inflater, container, false)
         _dialogbinding = ContactDialogBinding.inflate(inflater, container, false)
+
         return binding.root
     }
+
 
     override fun onDestroyView() {
         _binding = null
         _dialogbinding = null
         super.onDestroyView()
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
@@ -136,7 +102,7 @@ class ContactFragment : Fragment() {
 
         for(index in 0 until jsonary.length()){
             val jsonobj = jsonary.getJSONObject(index)
-            val img = jsonobj.getInt("img")
+            val img = jsonobj.getString("img")
             val name = jsonobj.getString("name")
             val number = jsonobj.getString("number")
             val phone = Phone(img, name, number)
@@ -160,40 +126,71 @@ class ContactFragment : Fragment() {
                 var name = cursor?.getString(0).orEmpty()
                 var number = cursor?.getString(1).orEmpty()
 
-                if(!namelist.contains(name)){
+                if (!namelist.contains(name)) {
                     // json에 연락처 추가
                     val jsonObject = JSONObject(jsonstr)
                     val newcontactjson = JSONObject()
-                    newcontactjson.put("img", R.drawable.img)
+
+                    var imageUri: String = "android.resource://com.example.week1/" + R.drawable.img
+
+                    newcontactjson.put("img", imageUri)
                     newcontactjson.put("name", name)
                     newcontactjson.put("number", number)
                     jsonObject.accumulate("contacts", newcontactjson)
-                    requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use{
-                    it.write(jsonObject.toString().toByteArray()) }
+                    requireContext().openFileOutput(filename, Context.MODE_PRIVATE).use {
+                        it.write(jsonObject.toString().toByteArray())
+                    }
                     // jsonlist에 추가
-                    val phone = Phone(R.drawable.img, name, number)
+                    val phone = Phone(imageUri, name, number)
                     listfromjson.add(phone)
                 }
+
+                val adapter = phoneAdapter(listfromjson)
+                binding.phonelistview.adapter = adapter
+
+                adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {
+                    override fun onClick(v: View, position: Int) {
+                        var tmpimg = listfromjson[position].img
+                        var tmpname = listfromjson[position].name
+                        var tmpnumber = listfromjson[position].number
+
+                        val dialog = ContactDialog(requireContext())
+                        dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                        dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
+                            override fun onClicked(change: String) {
+                                val dialog2 = GalleryDialog(requireContext())
+                                dialog2.showDialog()
+                                dialog2.setOnClickListener(object :
+                                    GalleryDialog.itemClickListener {
+                                    override fun onClicked(uri: String) {
+                                        listfromjson[position].img = uri
+
+                                        val jsonObjectlist = JSONArray()
+                                        for (index in 0 until listfromjson.size) {
+                                            val phoneobj = listfromjson[index]
+                                            val newcontactjson = JSONObject()
+                                            newcontactjson.put("img", phoneobj.img)
+                                            newcontactjson.put("name", phoneobj.name)
+                                            newcontactjson.put("number", phoneobj.number)
+                                            jsonObjectlist.put(newcontactjson)
+                                        }
+                                        val jsonObject = JSONObject()
+                                        jsonObject.put("contacts", jsonObjectlist)
+                                        requireContext().openFileOutput(
+                                            filename,
+                                            Context.MODE_PRIVATE
+                                        ).use {
+                                            it.write(jsonObject.toString().toByteArray())
+                                        }
+                                        requireActivity().recreate()
+                                    }
+                                })
+
+                            }
+                        })
+                    }
+                })
             }
-
-        val adapter = phoneAdapter(listfromjson)
-        binding.phonelistview.adapter = adapter
-
-        adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener{
-            override fun onClick(v:View, position : Int){
-                var tmpimg = listfromjson[position].img
-                var tmpname = listfromjson[position].name
-                var tmpnumber = listfromjson[position].number
-
-                val dialog = ContactDialog(requireContext())
-                dialog.showDialog(tmpimg, tmpname, tmpnumber)
-            }
-        })
-
-
-        binding.phonelistview.addItemDecoration(
-            DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL)
-        )
     }
     companion object {
         // TODO: Rename and change types and number of parameters
