@@ -20,32 +20,23 @@
         app:showBubble="false"
         tools:listitem="@layout/gallery_item" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="@id/recyclerViewProfile"
-        app:layout_constraintEnd_toEndOf="@+id/recyclerViewProfile"
-        app:layout_constraintStart_toStartOf="@+id/recyclerViewProfile">
-
-        <Button
-            android:id="@+id/btn_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="취소" />
-
-        <Button
-            android:id="@+id/btn_ok"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
-            android:text="확인" />
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="취소"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
+        app:layout_constraintLeft_toLeftOf="@+id/recyclerViewProfile"
+        app:layout_constraintRight_toLeftOf="@+id/btn_ok"/>
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintRight_toRightOf="@+id/recyclerViewProfile"
+        app:layout_constraintLeft_toRightOf="@+id/btn_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

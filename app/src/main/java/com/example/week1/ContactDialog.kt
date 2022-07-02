@@ -60,7 +60,7 @@ class ContactDialog(context: Context) {
 
         button_call.setOnClickListener {
             val uri = Uri.parse("tel:"+ number)
-            var intent = Intent(Intent.ACTION_DIAL, uri)
+            var intent = Intent(Intent.ACTION_CALL, uri)
 //            Log.d("phone", "tel:"+ number)
 
             if(intent.resolveActivity(context.packageManager) != null){
