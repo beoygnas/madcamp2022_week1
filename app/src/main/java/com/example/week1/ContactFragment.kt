@@ -162,8 +162,8 @@ class ContactFragment : Fragment() {
                             dialog2.setOnClickListener(object :
                                 GalleryDialog.itemClickListener {
                                 override fun onClicked(uri: String) {
-                                    listfromjson[position].img = uri
 
+                                    listfromjson[position].img = uri
                                     val jsonObjectlist = JSONArray()
                                     for (index in 0 until listfromjson.size) {
                                         val phoneobj = listfromjson[index]

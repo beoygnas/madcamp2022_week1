@@ -37,7 +37,7 @@ class GalleryDialogAdapter(
             with(imageList[position]){
                 val display = context.resources.displayMetrics
                 binding.galleryItem.padding = 2
-                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(dpToPx(context, 105f).toInt(), dpToPx(context, 105f).toInt())
+                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(dpToPx(context, 110f).toInt(), dpToPx(context, 110f).toInt())
 
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
             }
@@ -49,7 +49,9 @@ class GalleryDialogAdapter(
     }
 
     interface OnItemClickListener{
-        fun onClick(v: View, position:Int)
+        fun onClick(v: View, position:Int){
+
+        }
     }
 
     fun setItemClickListener(OnItemClickListener : OnItemClickListener){

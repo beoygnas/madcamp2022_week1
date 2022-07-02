@@ -66,11 +66,14 @@ class GalleryDialog(context: Context) {
 //
         dialog.show()
 
-
-
         recyclerAdapter.setItemClickListener(object : GalleryDialogAdapter.OnItemClickListener{
             override fun onClick(v: View, position : Int){
+                //uri 방해한거 풀기
+
+                //새로 uri 받기
                 uri = uriArr[position]
+//                사진 uri 타고 imageview를 방해.
+                //uri 방해하기
             }
         })
 
@@ -86,7 +89,9 @@ class GalleryDialog(context: Context) {
 
     interface itemClickListener
     {
-        fun onClicked(uri: String)
+        fun onClicked(uri: String){
+
+        }
     }
 
 }
