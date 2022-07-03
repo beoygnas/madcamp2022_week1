@@ -165,7 +165,8 @@ class ContactFragment : Fragment() {
                             dialog2.setOnClickListener(object :
                                 GalleryDialog.itemClickListener {
                                 override fun onClicked(uri: String) {
-                                    if(uri != "none") {
+
+                                    if(uri != "none" && uri != "cancel") {
                                         listfromjson[position].img = uri
                                         val jsonObjectlist = JSONArray()
                                         for (index in 0 until listfromjson.size) {
@@ -186,10 +187,11 @@ class ContactFragment : Fragment() {
                                         }
                                         requireActivity().recreate()
                                     }
-                                    else{
+                                    else if(uri != "cancel"){
                                         Toast.makeText(requireContext(), "사진을 선택해주세요!", Toast.LENGTH_SHORT).show()
                                     }
                                 }
+
                             })
 
                         }
