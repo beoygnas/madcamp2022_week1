@@ -160,40 +160,52 @@ class ContactFragment : Fragment() {
                     dialog.showDialog(tmpimg, tmpname, tmpnumber)
                     dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
                         override fun onClicked(change: String) {
-                            val dialog2 = GalleryDialog(requireContext())
-                            dialog2.showDialog()
-                            dialog2.setOnClickListener(object :
-                                GalleryDialog.itemClickListener {
-                                override fun onClicked(uri: String) {
-
-                                    if(uri != "none" && uri != "cancel") {
-                                        listfromjson[position].img = uri
-                                        val jsonObjectlist = JSONArray()
-                                        for (index in 0 until listfromjson.size) {
-                                            val phoneobj = listfromjson[index]
-                                            val newcontactjson = JSONObject()
-                                            newcontactjson.put("img", phoneobj.img)
-                                            newcontactjson.put("name", phoneobj.name)
-                                            newcontactjson.put("number", phoneobj.number)
-                                            jsonObjectlist.put(newcontactjson)
+                            if(change == "yes") {
+                                val dialog2 = GalleryDialog(requireContext())
+                                dialog2.showDialog()
+                                dialog2.setOnClickListener(object : GalleryDialog.itemClickListener {
+                                    override fun onClicked(uri: String) {
+                                        if (uri != "none" && uri != "cancel") {
+                                            listfromjson[position].img = uri
+                                            val jsonObjectlist = JSONArray()
+                                            for (index in 0 until listfromjson.size) {
+                                                val phoneobj = listfromjson[index]
+                                                val newcontactjson = JSONObject()
+                                                newcontactjson.put("img", phoneobj.img)
+                                                newcontactjson.put("name", phoneobj.name)
+                                                newcontactjson.put("number", phoneobj.number)
+                                                jsonObjectlist.put(newcontactjson)
+                                            }
+                                            val jsonObject = JSONObject()
+                                            jsonObject.put("contacts", jsonObjectlist)
+                                            requireContext().openFileOutput(
+                                                filename,
+                                                Context.MODE_PRIVATE
+                                            ).use {
+                                                it.write(jsonObject.toString().toByteArray())
+                                            }
+                                            requireActivity().recreate()
+                                        } else if (uri == "cancel") {
+                                            dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                                        } else {
+                                            Toast.makeText(
+                                                requireContext(),
+                                                "사진을 선택해주세요!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
                                         }
-                                        val jsonObject = JSONObject()
-                                        jsonObject.put("contacts", jsonObjectlist)
-                                        requireContext().openFileOutput(
-                                            filename,
-                                            Context.MODE_PRIVATE
-                                        ).use {
-                                            it.write(jsonObject.toString().toByteArray())
-                                        }
-                                        requireActivity().recreate()
                                     }
-                                    else if(uri != "cancel"){
-                                        Toast.makeText(requireContext(), "사진을 선택해주세요!", Toast.LENGTH_SHORT).show()
+                                })
+                            }
+                            else{
+                                val dialog2 = ImageDialog(requireContext())
+                                dialog2.showDialog(tmpimg)
+                                dialog2.setOnClickListener(object : ImageDialog.BtnClickListener{
+                                    override fun onClicked(change: String) {
+                                        dialog.showDialog(tmpimg, tmpname, tmpnumber)
                                     }
-                                }
-
-                            })
-
+                                })
+                            }
                         }
                     })
                 }

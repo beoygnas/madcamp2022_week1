@@ -57,7 +57,7 @@ class ContactDialog(context: Context) {
         dialog.show()
 
         imageView_img.setOnClickListener{
-            onClickListener.onClicked("yes")
+            onClickListener.onClicked("showimage")
             dialog.dismiss()
         }
 

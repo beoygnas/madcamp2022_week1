@@ -38,6 +38,7 @@ class ImageDialog(context: Context) {
         dialog.show()
 
         button_back.setOnClickListener {
+            onClickListener.onClicked("yes")
             dialog.dismiss()
         }
     }
