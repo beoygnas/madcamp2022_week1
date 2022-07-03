@@ -123,6 +123,10 @@ class GalleryFragment : Fragment() {
 
                 val dialog = ImageDialog(requireContext())
                 dialog.showDialog(uri)
+                dialog.setOnClickListener(object : ImageDialog.BtnClickListener{
+                    override fun onClicked(change: String) {
+                    }
+                })
             }
         })
 

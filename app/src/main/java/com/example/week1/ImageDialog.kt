@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
@@ -13,7 +14,7 @@ class ImageDialog(context: Context) {
 
     private val dialog = Dialog(context)
     private lateinit var imageView_img : ImageView
-    private lateinit var button_back : Button
+    private lateinit var button_back : ImageButton
     private lateinit var onClickListener: BtnClickListener
 
     fun setOnClickListener(listener: BtnClickListener)
@@ -29,7 +30,7 @@ class ImageDialog(context: Context) {
         dialog.setCancelable(true)
 
         imageView_img = dialog.findViewById<ImageView>(R.id.dialog_img)
-        button_back = dialog.findViewById<Button>(R.id.btn_back)
+        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
 
         Log.d("img", "img = " + img)
         imageView_img.setImageURI(img.toUri())
@@ -37,6 +38,7 @@ class ImageDialog(context: Context) {
         dialog.show()
 
         button_back.setOnClickListener {
+            onClickListener.onClicked("yes")
             dialog.dismiss()
         }
     }
