@@ -7,6 +7,7 @@ import android.net.Uri
 import android.util.Log
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat.startActivity
@@ -21,8 +22,9 @@ class ContactDialog(context: Context) {
     private lateinit var imageView_img : ImageView
     private lateinit var textView_name : TextView
     private lateinit var textView_number : TextView
-    private lateinit var button_back : Button
-    private lateinit var button_call : Button
+    private lateinit var button_back : ImageButton
+    private lateinit var button_call : ImageButton
+    private lateinit var button_profile : ImageButton
     private lateinit var onClickListener: BtnClickListener
 
     fun setOnClickListener(listener: BtnClickListener)
@@ -41,8 +43,9 @@ class ContactDialog(context: Context) {
         imageView_img = dialog.findViewById<ImageView>(R.id.dialog_img)
         textView_name = dialog.findViewById<TextView>(R.id.dialog_name)
         textView_number = dialog.findViewById<TextView>(R.id.dialog_number)
-        button_back = dialog.findViewById<Button>(R.id.btn_back)
-        button_call = dialog.findViewById<Button>(R.id.btn_call)
+        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
+        button_call = dialog.findViewById<ImageButton>(R.id.btn_call)
+        button_profile = dialog.findViewById<ImageButton>(R.id.btn_profile)
 
 //        Log.d("img", "img = " + img)
         val option1 = RequestOptions().circleCrop()
@@ -57,6 +60,12 @@ class ContactDialog(context: Context) {
             onClickListener.onClicked("yes")
             dialog.dismiss()
         }
+
+        button_profile.setOnClickListener{
+            onClickListener.onClicked("yes")
+            dialog.dismiss()
+        }
+
 
         button_call.setOnClickListener {
             val uri = Uri.parse("tel:"+ number)

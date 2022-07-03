@@ -36,19 +36,30 @@
         android:gravity="center"
         android:orientation="horizontal">
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_call"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="전화" />
+            android:background = "#00000000"
+            android:src = "@drawable/icon_phone" />
 
-        <Button
-            android:id="@+id/btn_back"
+        <ImageButton
+            android:id="@+id/btn_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="10dp"
-            android:text="뒤로가기" />
+            android:background = "#00000000"
+            android:src = "@drawable/icon_profile" />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:background = "#00000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:src = "@drawable/icon_back"
+            />
 
     </LinearLayout>
 
