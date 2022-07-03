@@ -6,10 +6,7 @@ import android.provider.MediaStore
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.l4digital.fastscroll.FastScrollView
@@ -20,8 +17,8 @@ class GalleryDialog(context: Context) {
     val context = context
     private lateinit var recyclerView : FastScrollView
     private val uriArr: ArrayList<String> = ArrayList<String>()
-    private lateinit var button_ok : Button
-    private lateinit var button_back : Button
+    private lateinit var button_ok : ImageButton
+    private lateinit var button_back : ImageButton
     var uri : String = "none"
     var prevuri : String = "none"
     private lateinit var onClickListener: itemClickListener
@@ -70,8 +67,8 @@ class GalleryDialog(context: Context) {
             setAdapter(rvAdapter)
         }
 
-        button_back = dialog.findViewById<Button>(R.id.btn_back)
-        button_ok = dialog.findViewById<Button>(R.id.btn_ok)
+        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
+        button_ok = dialog.findViewById<ImageButton>(R.id.btn_ok)
 //
         dialog.show()
 
@@ -94,6 +91,8 @@ class GalleryDialog(context: Context) {
         }
 //
         button_back.setOnClickListener {
+            uri = "cancel"
+            onClickListener.onClicked(uri)
             dialog.dismiss()
         }
     }

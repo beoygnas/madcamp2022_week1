@@ -20,19 +20,22 @@
         app:showBubble="false"
         tools:listitem="@layout/gallery_item" />
 
-    <Button
+    <ImageButton
         android:id="@+id/btn_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="취소"
+        android:src="@drawable/icon_back"
+        android:background = "#00000000"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
         app:layout_constraintLeft_toLeftOf="@+id/recyclerViewProfile"
         app:layout_constraintRight_toLeftOf="@+id/btn_ok"/>
-    <Button
+
+    <ImageButton
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="확인"
+        android:src="@drawable/icon_ok"
+        android:background = "#00000000"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintRight_toRightOf="@+id/recyclerViewProfile"
