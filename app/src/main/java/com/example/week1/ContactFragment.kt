@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.week1.databinding.ContactDialogBinding
 import com.example.week1.databinding.FragmentContactBinding
+import com.l4digital.fastscroll.FastScroller
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONArray
 import org.json.JSONObject
@@ -149,6 +150,9 @@ class ContactFragment : Fragment() {
 
             val adapter = phoneAdapter(this, listfromjson)
             binding.phonelistview.adapter = adapter
+            binding.fastScroller.setSectionIndexer(adapter)
+            binding.fastScroller.attachRecyclerView(binding.phonelistview)
+
 
             adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {
                 override fun onClick(v: View, position: Int) {

@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
+import com.l4digital.fastscroll.FastScrollRecyclerView
 import org.jetbrains.anko.support.v4.toast
 import java.sql.Date
 

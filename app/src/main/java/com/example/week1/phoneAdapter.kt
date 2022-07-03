@@ -3,17 +3,26 @@ package com.example.week1
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.SectionIndexer
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.week1.databinding.ItemViewBinding
+import com.l4digital.fastscroll.FastScroller
+
 
 
 class phoneAdapter(
     val context: ContactFragment,
     private val items: ArrayList<Phone>
-    ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>() {
+    ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>(), FastScroller.SectionIndexer {
+
+
+    override fun getSectionText(position: Int): CharSequence? {
+        return items[position].name[0].toString()
+    }
+
 
     override fun getItemCount(): Int = items.size
 
