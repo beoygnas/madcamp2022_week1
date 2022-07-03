@@ -22,7 +22,8 @@ class GalleryDialog(context: Context) {
     private val uriArr: ArrayList<String> = ArrayList<String>()
     private lateinit var button_ok : Button
     private lateinit var button_back : Button
-    private lateinit var uri : String
+    var uri : String = "none"
+    var prevuri : String = "none"
     private lateinit var onClickListener: itemClickListener
 
     private lateinit var rvLayoutManager: GridLayoutManager
@@ -78,18 +79,18 @@ class GalleryDialog(context: Context) {
 
         rvAdapter.setItemClickListener(object : GalleryDialogAdapter.OnItemClickListener{
             override fun onClick(v: View, position : Int){
-                //uri 방해한거 풀기
-
-                //새로 uri 받기
                 uri = uriArr[position]
-//                사진 uri 타고 imageview를 방해.
-                //uri 방해하기
+                if(prevuri == uri){
+                    uri = "none"
+                }
+                prevuri = uri
             }
         })
 
         button_ok.setOnClickListener {
             onClickListener.onClicked(uri)
-            dialog.dismiss()
+            if(uri != "none")
+                dialog.dismiss()
         }
 //
         button_back.setOnClickListener {

@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.example.week1.databinding.ContactDialogBinding
@@ -164,26 +165,30 @@ class ContactFragment : Fragment() {
                             dialog2.setOnClickListener(object :
                                 GalleryDialog.itemClickListener {
                                 override fun onClicked(uri: String) {
-
-                                    listfromjson[position].img = uri
-                                    val jsonObjectlist = JSONArray()
-                                    for (index in 0 until listfromjson.size) {
-                                        val phoneobj = listfromjson[index]
-                                        val newcontactjson = JSONObject()
-                                        newcontactjson.put("img", phoneobj.img)
-                                        newcontactjson.put("name", phoneobj.name)
-                                        newcontactjson.put("number", phoneobj.number)
-                                        jsonObjectlist.put(newcontactjson)
+                                    if(uri != "none") {
+                                        listfromjson[position].img = uri
+                                        val jsonObjectlist = JSONArray()
+                                        for (index in 0 until listfromjson.size) {
+                                            val phoneobj = listfromjson[index]
+                                            val newcontactjson = JSONObject()
+                                            newcontactjson.put("img", phoneobj.img)
+                                            newcontactjson.put("name", phoneobj.name)
+                                            newcontactjson.put("number", phoneobj.number)
+                                            jsonObjectlist.put(newcontactjson)
+                                        }
+                                        val jsonObject = JSONObject()
+                                        jsonObject.put("contacts", jsonObjectlist)
+                                        requireContext().openFileOutput(
+                                            filename,
+                                            Context.MODE_PRIVATE
+                                        ).use {
+                                            it.write(jsonObject.toString().toByteArray())
+                                        }
+                                        requireActivity().recreate()
                                     }
-                                    val jsonObject = JSONObject()
-                                    jsonObject.put("contacts", jsonObjectlist)
-                                    requireContext().openFileOutput(
-                                        filename,
-                                        Context.MODE_PRIVATE
-                                    ).use {
-                                        it.write(jsonObject.toString().toByteArray())
+                                    else{
+                                        Toast.makeText(requireContext(), "사진을 선택해주세요!", Toast.LENGTH_SHORT).show()
                                     }
-                                    requireActivity().recreate()
                                 }
                             })
 
