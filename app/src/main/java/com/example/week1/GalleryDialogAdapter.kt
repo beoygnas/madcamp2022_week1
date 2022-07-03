@@ -48,10 +48,16 @@ class GalleryDialogAdapter(
         holder.itemView.setOnClickListener{
 
             var imgview = it.findViewById<ImageView>(R.id.gallery_item)
-            imgview.setColorFilter(Color.parseColor("#80000000"))
 
-            previmageview?.setColorFilter(null)
-            previmageview = imgview
+            if(imgview == previmageview){
+                imgview.setColorFilter(null)
+                previmageview = null
+            }
+            else if(imgview != previmageview) {
+                imgview.setColorFilter(Color.parseColor("#80000000"))
+                previmageview?.setColorFilter(null)
+                previmageview = imgview
+            }
             itemClickListener.onClick(it, position)
         }
     }
