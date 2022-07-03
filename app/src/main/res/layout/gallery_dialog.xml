@@ -18,28 +18,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:showBubble="false"
-        tools:listitem="@layout/gallery_item" />
+        tools:listitem="@layout/gallery_item">
 
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/icon_back"
-        android:background = "#00000000"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
-        app:layout_constraintLeft_toLeftOf="@+id/recyclerViewProfile"
-        app:layout_constraintRight_toLeftOf="@+id/btn_ok"/>
+    </com.l4digital.fastscroll.FastScrollView>
+
 
     <ImageButton
         android:id="@+id/btn_ok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#00000000"
         android:src="@drawable/icon_ok"
-        android:background = "#00000000"
-        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewProfile"
-        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="@+id/recyclerViewProfile"
-        app:layout_constraintLeft_toRightOf="@+id/btn_back" />
+        app:layout_constraintLeft_toRightOf="@+id/btn_back"
 
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewProfile" />
+
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#00000000"
+        android:src="@drawable/icon_back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/recyclerViewProfile"
+        app:layout_constraintRight_toLeftOf="@+id/btn_ok"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewProfile" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
