@@ -58,7 +58,6 @@ class GalleryAdapter(
 //                binding.galleryItem.setImageResource(this.img)
 //                Log.d("Uri:################ ", this)
                 val display = context.resources.displayMetrics
-//
                 binding.galleryItem.padding = 2
                 binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/spanCount,display.widthPixels/spanCount)
 
