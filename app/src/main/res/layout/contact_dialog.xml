@@ -17,6 +17,8 @@
         android:textAlignment="center"
         android:textSize="20sp"
         android:gravity="center"
+        android:gravity="bottom"
+        android:textStyle = "bold"
         android:text="TextView" />
 
     <TextView
