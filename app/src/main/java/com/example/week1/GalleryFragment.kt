@@ -9,7 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
-import com.l4digital.fastscroll.FastScrollRecyclerView
 import org.jetbrains.anko.support.v4.toast
 import java.sql.Date
 
@@ -37,8 +36,8 @@ class GalleryFragment : Fragment() {
     private lateinit var rvAdapter: GalleryAdapter
     private lateinit var uri : String
 
-    private val uriArr: ArrayList<String> = ArrayList<String>()
-    private val dateArr: ArrayList<Date> = ArrayList<Date>()
+    private val uriArr: ArrayList<String> = ArrayList()
+    private val dateArr: ArrayList<Date> = ArrayList()
 
 //    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
 //        var ft: FragmentTransaction = fragmentManager.beginTransaction()
@@ -62,8 +61,6 @@ class GalleryFragment : Fragment() {
                 uriArr.add(uri)
                 val date = Date(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)))
                 dateArr.add(date)
-//                Log.d("Date ############    ", date.toString())
-//                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
         }
@@ -102,16 +99,32 @@ class GalleryFragment : Fragment() {
 
             // For library
 //            binding.refreshGallery.setRefreshing(false)
-            // For basic swiperefreshlayout
+            // For basic SwipeRefreshLayout
             binding.refreshGallery.isRefreshing = false
         }
 
 
         loadImage()
         // Change spanCount for number of columns
-        val spanCount: Int = 3
+        var spanCount: Int
+
+        val display = this.resources.displayMetrics
+//        Log.d("Display width", "$display.widthPixels")
+        if(display.widthPixels <= 1200)
+            spanCount = 3
+        else if(display.widthPixels <= 1800)
+            spanCount = 4
+        else
+            spanCount = 6
+//
+//        when(display.widthPixels / 1200) {
+//            1 -> { spanCount = 4 }
+//            2 -> { spanCount = 6 }
+//            else -> {spanCount = 3}
+//        }
+
         rvLayoutManager = GridLayoutManager(context, spanCount)
-        rvAdapter = GalleryAdapter(this, uriArr, dateArr, spanCount)
+        rvAdapter = GalleryAdapter(this, uriArr, dateArr, display.widthPixels/spanCount)
         binding.recyclerView.apply {
             setLayoutManager(rvLayoutManager)
             setAdapter(rvAdapter)

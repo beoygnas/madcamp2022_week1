@@ -2,19 +2,18 @@ package com.example.week1
 
 import android.app.Dialog
 import android.content.Context
-import android.util.Log
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
-import android.widget.TextView
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 
 class ImageDialog(context: Context) {
 
     private val dialog = Dialog(context)
-    private lateinit var imageView_img : ImageView
-    private lateinit var button_back : ImageButton
+    val context = context
+    private lateinit var imageViewImg : ImageView
+    private lateinit var buttonBack : ImageButton
     private lateinit var onClickListener: BtnClickListener
 
     fun setOnClickListener(listener: BtnClickListener)
@@ -25,19 +24,21 @@ class ImageDialog(context: Context) {
     fun showDialog(img : String)
     {
         dialog.setContentView(R.layout.image_dialog)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        val display = context.resources.displayMetrics
+        dialog.window!!.setLayout(display.widthPixels*7/8, display.heightPixels*3/4)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
-        imageView_img = dialog.findViewById<ImageView>(R.id.dialog_img)
-        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
+        imageViewImg = dialog.findViewById(R.id.dialog_img)
+        buttonBack = dialog.findViewById(R.id.btn_back)
 
-        Log.d("img", "img = " + img)
-        imageView_img.setImageURI(img.toUri())
-
+//        Log.d("img", "img = " + img)
+//        imageViewImg.setImageURI(img.toUri())
+        Glide.with(context).load(img).into(imageViewImg)
         dialog.show()
 
-        button_back.setOnClickListener {
+        buttonBack.setOnClickListener {
             onClickListener.onClicked("yes")
             dialog.dismiss()
         }

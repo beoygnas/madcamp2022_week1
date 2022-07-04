@@ -4,14 +4,10 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.WindowManager
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
-import androidx.core.net.toUri
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 
@@ -19,12 +15,12 @@ class ContactDialog(context: Context) {
 
     private val dialog = Dialog(context)
     private val context = context
-    private lateinit var imageView_img : ImageView
-    private lateinit var textView_name : TextView
-    private lateinit var textView_number : TextView
-    private lateinit var button_back : ImageButton
-    private lateinit var button_call : ImageButton
-    private lateinit var button_profile : ImageButton
+    private lateinit var imageViewImg : ImageView
+    private lateinit var textViewName : TextView
+    private lateinit var textViewNumber : TextView
+    private lateinit var buttonBack : ImageButton
+    private lateinit var buttonCall : ImageButton
+    private lateinit var buttonProfile : ImageButton
     private lateinit var onClickListener: BtnClickListener
 
     fun setOnClickListener(listener: BtnClickListener)
@@ -40,36 +36,36 @@ class ContactDialog(context: Context) {
         dialog.setCancelable(true)
 
 
-        imageView_img = dialog.findViewById<ImageView>(R.id.dialog_img)
-        textView_name = dialog.findViewById<TextView>(R.id.dialog_name)
-        textView_number = dialog.findViewById<TextView>(R.id.dialog_number)
-        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
-        button_call = dialog.findViewById<ImageButton>(R.id.btn_call)
-        button_profile = dialog.findViewById<ImageButton>(R.id.btn_profile)
+        imageViewImg = dialog.findViewById(R.id.dialog_img)
+        textViewName = dialog.findViewById(R.id.dialog_name)
+        textViewNumber = dialog.findViewById(R.id.dialog_number)
+        buttonBack = dialog.findViewById(R.id.btn_back)
+        buttonCall = dialog.findViewById(R.id.btn_call)
+        buttonProfile = dialog.findViewById(R.id.btn_profile)
 
 //        Log.d("img", "img = " + img)
         val option1 = RequestOptions().circleCrop()
-        Glide.with(context).load(img).centerCrop().apply(option1).into(imageView_img)
+        Glide.with(context).load(img).centerCrop().apply(option1).into(imageViewImg)
 //        imageView_img.setImageURI(img.toUri())
-        textView_name.text = name
-        textView_number.text = number
+        textViewName.text = name
+        textViewNumber.text = number
 
         dialog.show()
 
-        imageView_img.setOnClickListener{
+        imageViewImg.setOnClickListener{
             onClickListener.onClicked("showimage")
             dialog.dismiss()
         }
 
-        button_profile.setOnClickListener{
+        buttonProfile.setOnClickListener{
             onClickListener.onClicked("yes")
             dialog.dismiss()
         }
 
 
-        button_call.setOnClickListener {
-            val uri = Uri.parse("tel:"+ number)
-            var intent = Intent(Intent.ACTION_CALL, uri)
+        buttonCall.setOnClickListener {
+            val uri = Uri.parse("tel:$number")
+            val intent = Intent(Intent.ACTION_CALL, uri)
 //            Log.d("phone", "tel:"+ number)
 
             if(intent.resolveActivity(context.packageManager) != null){
@@ -78,7 +74,7 @@ class ContactDialog(context: Context) {
             dialog.dismiss()
         }
 //
-        button_back.setOnClickListener {
+        buttonBack.setOnClickListener {
             dialog.dismiss()
         }
     }
