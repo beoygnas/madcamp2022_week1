@@ -9,9 +9,11 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 
 class ImageDialog(context: Context) {
 
+    val context = context
     private val dialog = Dialog(context)
     private lateinit var imageView_img : ImageView
     private lateinit var button_back : ImageButton
@@ -33,7 +35,9 @@ class ImageDialog(context: Context) {
         button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
 
         Log.d("img", "img = " + img)
-        imageView_img.setImageURI(img.toUri())
+
+        Glide.with(context).load(img).into(imageView_img)
+//        imageView_img.setImageURI(img.toUri())
 
         dialog.show()
 

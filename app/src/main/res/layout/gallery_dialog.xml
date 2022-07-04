@@ -13,7 +13,7 @@
     <com.l4digital.fastscroll.FastScrollView
         android:id="@+id/recyclerViewProfile"
         android:layout_width="330dp"
-        android:layout_height="600dp"
+        android:layout_height="500dp"
         app:handleColor="#999999"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

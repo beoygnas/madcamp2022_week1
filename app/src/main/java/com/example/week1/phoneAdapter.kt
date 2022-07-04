@@ -18,7 +18,6 @@ class phoneAdapter(
     private val items: ArrayList<Phone>
     ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>(), FastScroller.SectionIndexer {
 
-
     override fun getSectionText(position: Int): CharSequence? {
         return items[position].name[0].toString()
     }

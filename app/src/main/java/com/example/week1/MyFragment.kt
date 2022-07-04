@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.week1.databinding.FragmentMyBinding
+import com.example.week1.databinding.FragmentCallenderBinding
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -22,7 +22,7 @@ class MyFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private var _binding: FragmentMyBinding? = null
+    private var _binding: FragmentCallenderBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,7 +39,7 @@ class MyFragment : Fragment() {
     ): View? { // Delete ? for warning
         // Inflate the layout for this fragment
 //        return inflater.inflate(R.layout.fragment_my, container, false)
-        _binding = FragmentMyBinding.inflate(inflater, container, false)
+        _binding = FragmentCallenderBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -49,7 +49,7 @@ class MyFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.textview.text = param1
+//        binding.textview.text = param1
     }
 
     companion object {
