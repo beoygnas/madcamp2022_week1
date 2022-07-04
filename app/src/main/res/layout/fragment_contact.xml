@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/tmp"
@@ -9,36 +9,72 @@
     tools:context=".ContactFragment">
 
 <!--    android:background="@drawable/pagepartition"    -->
-    <!-- TODO: Update blank fragment layout -->
 
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topappbarlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:title="Contact">
+
+            <androidx.appcompat.widget.SearchView
+                android:layout_width="250dp"
+                android:layout_height="match_parent"
+                android:id="@+id/search_view"
+                android:layout_gravity="right"
+                android:layoutDirection="rtl"/>
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+        <!--        When we want to extend functions-->
+        <!--        app:menu="@menu/top_app_bar"-->
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/topappbarlayout">
 
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/refreshContact"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/phonelistview"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_view"
-            />
+                tools:listitem="@layout/item_view" />
 
         </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
         <com.l4digital.fastscroll.FastScroller
             android:id="@+id/fastScroller"
-            android:layout_gravity="end"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="16dp"
-            android:layout_marginTop="16dp"
             android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
             app:bubbleColor="#E6717171"
+            app:bubbleSize="normal"
             app:bubbleTextColor="#ffffff"
             app:bubbleTextSize="20sp"
-            app:bubbleSize="normal"
-            app:handleColor="#999999"/>
+            app:handleColor="#999999" />
 
-</FrameLayout>
+    </FrameLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
