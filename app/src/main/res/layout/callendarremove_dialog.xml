@@ -1,0 +1,55 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="300dp"
+    android:layout_height="150dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:fontFamily="@font/applesdgothicneob"
+        android:textColor="#000000"
+        app:layout_constraintTop_toBottomOf="@id/textview1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="일정을 삭제하시겠습니까?"
+        />
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_marginBottom="16dp"
+            android:background = "#00000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/edittext"
+            app:layout_constraintEnd_toEndOf="@id/btn_ok"
+            app:layout_constraintHorizontal_bias="0.3"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:src = "@drawable/icon_back"
+            />
+
+        <ImageButton
+            android:id="@+id/btn_ok"
+            android:layout_marginBottom="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background = "#00000000"
+            app:layout_constraintTop_toBottomOf="@id/edittext"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.7"
+            app:layout_constraintStart_toStartOf="@id/btn_back"
+            android:src = "@drawable/icon_ok" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
