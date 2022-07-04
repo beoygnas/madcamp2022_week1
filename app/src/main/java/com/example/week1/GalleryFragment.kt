@@ -2,6 +2,7 @@ package com.example.week1
 
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -105,9 +106,25 @@ class GalleryFragment : Fragment() {
 
         loadImage()
         // Change spanCount for number of columns
-        val spanCount: Int = 3
+        var spanCount: Int
+
+        val display = this.resources.displayMetrics
+//        Log.d("Display width", "$display.widthPixels")
+        if(display.widthPixels <= 1200)
+            spanCount = 3
+        else if(display.widthPixels <= 1800)
+            spanCount = 4
+        else
+            spanCount = 6
+//
+//        when(display.widthPixels / 1200) {
+//            1 -> { spanCount = 4 }
+//            2 -> { spanCount = 6 }
+//            else -> {spanCount = 3}
+//        }
+
         rvLayoutManager = GridLayoutManager(context, spanCount)
-        rvAdapter = GalleryAdapter(this, uriArr, dateArr, spanCount)
+        rvAdapter = GalleryAdapter(this, uriArr, dateArr, display.widthPixels/spanCount)
         binding.recyclerView.apply {
             setLayoutManager(rvLayoutManager)
             setAdapter(rvAdapter)

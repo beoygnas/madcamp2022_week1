@@ -6,10 +6,12 @@ import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ImageView
 import androidx.core.net.toUri
+import com.bumptech.glide.Glide
 
 class ImageDialog(context: Context) {
 
     private val dialog = Dialog(context)
+    val context = context
     private lateinit var imageViewImg : ImageView
     private lateinit var buttonBack : ImageButton
     private lateinit var onClickListener: BtnClickListener
@@ -22,7 +24,9 @@ class ImageDialog(context: Context) {
     fun showDialog(img : String)
     {
         dialog.setContentView(R.layout.image_dialog)
-        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+//        dialog.window!!.setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        val display = context.resources.displayMetrics
+        dialog.window!!.setLayout(display.widthPixels*7/8, display.heightPixels*3/4)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
@@ -30,8 +34,8 @@ class ImageDialog(context: Context) {
         buttonBack = dialog.findViewById(R.id.btn_back)
 
 //        Log.d("img", "img = " + img)
-        imageViewImg.setImageURI(img.toUri())
-
+//        imageViewImg.setImageURI(img.toUri())
+        Glide.with(context).load(img).into(imageViewImg)
         dialog.show()
 
         buttonBack.setOnClickListener {

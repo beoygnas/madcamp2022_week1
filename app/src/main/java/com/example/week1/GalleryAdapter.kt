@@ -17,7 +17,7 @@ class GalleryAdapter(
     val context: GalleryFragment,
     var imageList: List<String>,
     var dateArr: ArrayList<Date>,
-    val spanCount: Int,
+    val imageSize: Int,
 ) : RecyclerView.Adapter<GalleryAdapter.ViewHolder>(), FastScroller.SectionIndexer {
 
     private fun getItem(position: Int):Any {
@@ -53,9 +53,9 @@ class GalleryAdapter(
             with(imageList[position]){
 //                binding.galleryItem.setImageResource(this.img)
 //                Log.d("Uri:################ ", this)
-                val display = context.resources.displayMetrics
+
                 binding.galleryItem.padding = 2
-                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(display.widthPixels/spanCount,display.widthPixels/spanCount)
+                binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(imageSize, imageSize)
 
                 // Original without Glide
 //                binding.galleryItem.setImageURI(this.toUri())
