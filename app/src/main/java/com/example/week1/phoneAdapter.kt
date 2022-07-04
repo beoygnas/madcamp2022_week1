@@ -31,9 +31,18 @@ class phoneAdapter(
             return chs[(((code - 0xAC00)/28)/21)].toString()
         }
         // When English
+        // Upper case
+        else if (65 <= code && code <= 90) {
+            return items[position].name[0].toString()
+        }
+        // Lower case
+        else if (97 <= code && code <= 122) {
+//            return items[position].name[0].uppercaseChar().toString()
+            return items[position].name[0].toString()
+        }
 
-
-        return items[position].name[0].toString()
+        // Else Special Character
+        return "#"
     }
 
 
