@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listitem="@layout/gallery_item"
-            app:bubbleColor="#E66200EE"
+            app:bubbleColor="#E6717171"
             app:bubbleTextColor="#ffffff"
             app:bubbleTextSize="20sp"
             app:bubbleSize="normal"
