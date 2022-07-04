@@ -3,7 +3,6 @@ package com.example.week1
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.SectionIndexer
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -12,14 +11,28 @@ import com.example.week1.databinding.ItemViewBinding
 import com.l4digital.fastscroll.FastScroller
 
 
-
 class phoneAdapter(
     val context: ContactFragment,
     private val items: ArrayList<Phone>
     ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>(), FastScroller.SectionIndexer {
 
+    var chs = arrayOf(
+        "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
+        "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",
+        "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
+        "ㅋ", "ㅌ", "ㅍ", "ㅎ"
+    )
 
     override fun getSectionText(position: Int): CharSequence? {
+        val code = items[position].name[0].code
+
+        // When Korean
+        if (0xAC00 <= code && code <= 0xD7A3) {
+            return chs[(((code - 0xAC00)/28)/21)].toString()
+        }
+        // When English
+
+
         return items[position].name[0].toString()
     }
 
