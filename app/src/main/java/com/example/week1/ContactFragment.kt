@@ -21,6 +21,47 @@ import org.json.JSONObject
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
+object OrderKoreanFirst {
+    private const val LEFT = -1
+    private const val RIGHT = 1
+
+    fun compare (left:Phone, right:Phone): Int {
+        val _left = left.name.uppercase().filterNot(Char::isWhitespace)
+        val _right = right.name.uppercase().filterNot(Char::isWhitespace)
+
+        val (llen, rlen) = _left.length to _right.length
+        val mlen = llen.coerceAtMost(rlen)
+
+        for (i in 0 until mlen) {
+            val (lc, rc) = _left[i] to _right[i]
+
+            if(lc != rc) {
+                return if(conditionKoreanAndEnglish(lc, rc) || conditionKoreanAndNumber(lc, rc) || conditionEnglishAndNumber(lc, rc) || conditionKoreanAndSpecial(lc, rc)) -(lc - rc)
+                else if(conditionEnglishAndSpecial(lc, rc) || conditionNumberAndSpecial(lc, rc)) {
+                    if(isEnglish(lc) || isNumber(lc)) LEFT else RIGHT
+                } else { lc - rc }
+            }
+        }
+
+        return llen - rlen
+    }
+
+    // 대문자로 치환 후 비교할 예정이므로 대문자 함수만
+    private fun isEnglish(ch:Char) : Boolean = ch in 'A'..'Z'
+    // 자음, 모음만 있는것도 한글로
+    private fun isKorean(ch:Char) : Boolean = ch in 'ㄱ'..'ㅣ' || ch in '가'..'힣'
+    private fun isNumber(ch:Char) : Boolean = ch in '0'..'9'
+    private fun isSpecial(ch:Char) : Boolean = ch in '!'..'/' || ch in ':'..'@' || ch in '['..'`' || ch in '{'..'~'
+
+    private fun conditionKoreanAndEnglish(c1: Char, c2: Char) = isKorean(c1) && isEnglish((c2)) || isEnglish(c1) && isKorean(c2)
+    private fun conditionKoreanAndNumber(c1: Char, c2: Char) = isKorean(c1) && isNumber((c2)) || isNumber(c1) && isKorean(c2)
+    private fun conditionKoreanAndSpecial(c1: Char, c2: Char) = isKorean(c1) && isSpecial((c2)) || isSpecial(c1) && isKorean(c2)
+    private fun conditionEnglishAndNumber(c1: Char, c2: Char) = isEnglish(c1) && isNumber((c2)) || isNumber(c1) && isEnglish(c2)
+    private fun conditionEnglishAndSpecial(c1: Char, c2: Char) = isEnglish(c1) && isSpecial((c2)) || isSpecial(c1) && isEnglish(c2)
+    private fun conditionNumberAndSpecial(c1: Char, c2: Char) = isNumber(c1) && isSpecial((c2)) || isSpecial(c1) && isNumber(c2)
+
+}
+
 class ContactFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -144,8 +185,9 @@ class ContactFragment : Fragment() {
             }
             cursor.close()
         }
+        listfromjson.sortWith(Comparator(OrderKoreanFirst::compare))
 
-        listfromjson.sortBy{it.name}
+//        listfromjson.sortBy{it.name}
 
         val adapter = ContactAdapter(this, listfromjson)
         binding.phonelistview.adapter = adapter
