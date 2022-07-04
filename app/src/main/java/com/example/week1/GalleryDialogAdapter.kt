@@ -6,11 +6,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
 import android.widget.ImageView
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.week1.databinding.GalleryItemBinding
@@ -38,7 +35,7 @@ class GalleryDialogAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         with(holder){
             with(imageList[position]){
-                val display = context.resources.displayMetrics
+//                val display = context.resources.displayMetrics
                 binding.galleryItem.padding = 2
                 binding.itemWrapper.layoutParams = ConstraintLayout.LayoutParams(dpToPx(context, 110f).toInt(), dpToPx(context, 110f).toInt())
                 Glide.with(context).load(this).centerCrop().into(binding.galleryItem)
@@ -47,15 +44,15 @@ class GalleryDialogAdapter(
 
         holder.itemView.setOnClickListener{
 
-            var imgview = it.findViewById<ImageView>(R.id.gallery_item)
+            val imgview = it.findViewById<ImageView>(R.id.gallery_item)
 
             if(imgview == previmageview){
-                imgview.setColorFilter(null)
+                imgview.colorFilter = null
                 previmageview = null
             }
             else if(imgview != previmageview) {
                 imgview.setColorFilter(Color.parseColor("#80000000"))
-                previmageview?.setColorFilter(null)
+                previmageview?.colorFilter = null
                 previmageview = imgview
             }
             itemClickListener.onClick(it, position)

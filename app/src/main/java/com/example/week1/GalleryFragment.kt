@@ -2,14 +2,12 @@ package com.example.week1
 
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.week1.databinding.FragmentGalleryBinding
-import com.l4digital.fastscroll.FastScrollRecyclerView
 import org.jetbrains.anko.support.v4.toast
 import java.sql.Date
 
@@ -37,8 +35,8 @@ class GalleryFragment : Fragment() {
     private lateinit var rvAdapter: GalleryAdapter
     private lateinit var uri : String
 
-    private val uriArr: ArrayList<String> = ArrayList<String>()
-    private val dateArr: ArrayList<Date> = ArrayList<Date>()
+    private val uriArr: ArrayList<String> = ArrayList()
+    private val dateArr: ArrayList<Date> = ArrayList()
 
 //    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
 //        var ft: FragmentTransaction = fragmentManager.beginTransaction()
@@ -62,8 +60,6 @@ class GalleryFragment : Fragment() {
                 uriArr.add(uri)
                 val date = Date(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)))
                 dateArr.add(date)
-//                Log.d("Date ############    ", date.toString())
-//                Log.d("Uri", "Uri is travelsed")
             }
             cursor.close()
         }
@@ -102,7 +98,7 @@ class GalleryFragment : Fragment() {
 
             // For library
 //            binding.refreshGallery.setRefreshing(false)
-            // For basic swiperefreshlayout
+            // For basic SwipeRefreshLayout
             binding.refreshGallery.isRefreshing = false
         }
 

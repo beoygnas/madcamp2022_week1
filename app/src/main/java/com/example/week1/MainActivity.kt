@@ -1,18 +1,14 @@
 package com.example.week1
 
 import android.content.pm.PackageManager
-import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
 
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentActivity
 import com.example.week1.databinding.ActivityMainBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import org.jetbrains.anko.toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -22,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         R.drawable.noun_contact,
         R.drawable.noun_gallery
     )
-    val MY_PERMISSION_ACCESS_ALL = 100
-    var permissions = arrayOf(
+    private val MY_PERMISSION_ACCESS_ALL = 100
+    private var permissions = arrayOf(
         android.Manifest.permission.READ_CONTACTS,
         android.Manifest.permission.READ_EXTERNAL_STORAGE,
         android.Manifest.permission.CALL_PHONE
@@ -74,19 +70,19 @@ class MainActivity : AppCompatActivity() {
 
     private fun getPermission() {
 
-        val need_permissions: MutableList<String> = emptyArray<String>().toMutableList()
+        val needPermissions: MutableList<String> = emptyArray<String>().toMutableList()
 
         for (permission in permissions) {
             if(ActivityCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                need_permissions.add(permission)
+                needPermissions.add(permission)
 
 //                Log.d("TAG", "########## need permission")
             }
         }
 //        ActivityCompat.shouldShowRequestPermissionRationale(this, )
 //        과거에 거절한 적있는지 필요한 경우
-        if (need_permissions.isNotEmpty()) {
-            ActivityCompat.requestPermissions(this, need_permissions.toTypedArray(), MY_PERMISSION_ACCESS_ALL)
+        if (needPermissions.isNotEmpty()) {
+            ActivityCompat.requestPermissions(this, needPermissions.toTypedArray(), MY_PERMISSION_ACCESS_ALL)
         }
     }
 

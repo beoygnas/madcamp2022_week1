@@ -3,12 +3,10 @@ package com.example.week1
 import android.app.Dialog
 import android.content.Context
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.l4digital.fastscroll.FastScrollView
 
 class GalleryDialog(context: Context) {
@@ -16,17 +14,17 @@ class GalleryDialog(context: Context) {
     private val dialog = Dialog(context)
     val context = context
     private lateinit var recyclerView : FastScrollView
-    private val uriArr: ArrayList<String> = ArrayList<String>()
-    private lateinit var button_ok : ImageButton
-    private lateinit var button_back : ImageButton
+    private val uriArr: ArrayList<String> = ArrayList()
+    private lateinit var buttonOk : ImageButton
+    private lateinit var buttonBack : ImageButton
     var uri : String = "none"
     var prevuri : String = "none"
-    private lateinit var onClickListener: itemClickListener
+    private lateinit var onClickListener: ItemClickListener
 
     private lateinit var rvLayoutManager: GridLayoutManager
     private lateinit var rvAdapter: GalleryDialogAdapter
 
-    fun setOnClickListener(listener: itemClickListener)
+    fun setOnClickListener(listener: ItemClickListener)
     {
         onClickListener = listener
     }
@@ -55,7 +53,7 @@ class GalleryDialog(context: Context) {
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
 
-        recyclerView = dialog.findViewById<FastScrollView>(R.id.recyclerViewProfile)
+        recyclerView = dialog.findViewById(R.id.recyclerViewProfile)
 
         loadImage()
 
@@ -67,8 +65,8 @@ class GalleryDialog(context: Context) {
             setAdapter(rvAdapter)
         }
 
-        button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
-        button_ok = dialog.findViewById<ImageButton>(R.id.btn_ok)
+        buttonBack = dialog.findViewById(R.id.btn_back)
+        buttonOk = dialog.findViewById(R.id.btn_ok)
 //
         dialog.show()
 
@@ -84,20 +82,20 @@ class GalleryDialog(context: Context) {
             }
         })
 
-        button_ok.setOnClickListener {
+        buttonOk.setOnClickListener {
             onClickListener.onClicked(uri)
             if(uri != "none")
                 dialog.dismiss()
         }
 //
-        button_back.setOnClickListener {
+        buttonBack.setOnClickListener {
             uri = "cancel"
             onClickListener.onClicked(uri)
             dialog.dismiss()
         }
     }
 
-    interface itemClickListener
+    interface ItemClickListener
     {
         fun onClicked(uri: String){
 

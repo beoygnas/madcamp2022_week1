@@ -147,13 +147,13 @@ class ContactFragment : Fragment() {
 
         listfromjson.sortBy{it.name}
 
-        val adapter = phoneAdapter(this, listfromjson)
+        val adapter = ContactAdapter(this, listfromjson)
         binding.phonelistview.adapter = adapter
 
         binding.fastScroller.setSectionIndexer(adapter)
         binding.fastScroller.attachRecyclerView(binding.phonelistview)
 
-        adapter.setItemClickListener(object : phoneAdapter.OnItemClickListener {
+        adapter.setItemClickListener(object : ContactAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val tmpimg = listfromjson[position].img
                 val tmpname = listfromjson[position].name
@@ -166,7 +166,7 @@ class ContactFragment : Fragment() {
                         if(change == "yes") {
                             val dialog2 = GalleryDialog(requireContext())
                             dialog2.showDialog()
-                            dialog2.setOnClickListener(object : GalleryDialog.itemClickListener {
+                            dialog2.setOnClickListener(object : GalleryDialog.ItemClickListener {
                                 override fun onClicked(uri: String) {
                                     if (uri != "none" && uri != "cancel") {
                                         listfromjson[position].img = uri

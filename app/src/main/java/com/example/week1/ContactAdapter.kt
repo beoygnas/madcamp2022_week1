@@ -11,24 +11,24 @@ import com.example.week1.databinding.ItemViewBinding
 import com.l4digital.fastscroll.FastScroller
 
 
-class phoneAdapter(
+class ContactAdapter(
     val context: ContactFragment,
     private val items: ArrayList<Phone>
-    ) : RecyclerView.Adapter<phoneAdapter.ViewHolder>(), FastScroller.SectionIndexer {
+    ) : RecyclerView.Adapter<ContactAdapter.ViewHolder>(), FastScroller.SectionIndexer {
 
-    var chs = arrayOf(
+    private var chs = arrayOf(
         "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
         "ㄹ", "ㅁ", "ㅂ", "ㅃ", "ㅅ",
         "ㅆ", "ㅇ", "ㅈ", "ㅉ", "ㅊ",
         "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     )
 
-    override fun getSectionText(position: Int): CharSequence? {
+    override fun getSectionText(position: Int): CharSequence {
         val code = items[position].name[0].code
 
         // When Korean
         if (0xAC00 <= code && code <= 0xD7A3) {
-            return chs[(((code - 0xAC00)/28)/21)].toString()
+            return chs[(((code - 0xAC00)/28)/21)]
         }
         // When English
         // Upper case
@@ -48,7 +48,7 @@ class phoneAdapter(
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: phoneAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ContactAdapter.ViewHolder, position: Int) {
 
         val item = items[position]
         val listener = View.OnClickListener { it ->
