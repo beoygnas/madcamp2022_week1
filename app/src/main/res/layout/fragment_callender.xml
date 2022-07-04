@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFFFFF"
-    tools:context=".MyFragment">
+    tools:context=".CallendarFragment">
 
     <CalendarView
         android:layout_width="match_parent"
@@ -23,7 +23,7 @@
         android:layout_marginTop="0dp"/>
 
         <TextView
-            android:id="@+id/today"
+            android:id="@+id/textview"
             android:text = "일정"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -31,6 +31,7 @@
             android:textSize="30dp"
             android:textStyle="bold"
             android:fontFamily="@font/applesdgothicneob"
+            android:visibility="invisible"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintHorizontal_bias="0.1"
@@ -44,7 +45,7 @@
         android:layout_width="350dp"
         android:layout_height="250dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/today"
+        app:layout_constraintTop_toBottomOf="@id/textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -54,6 +55,7 @@
             android:id="@+id/calendarlist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/callender_item" />
 
@@ -68,23 +70,31 @@
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
         app:layout_constraintHorizontal_bias="0.9"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/today">
+        app:layout_constraintStart_toEndOf="@+id/textview"
+        android:visibility="invisible"
+        >
 
         <ImageButton
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/btnremove"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:background="#00000000"
+            android:src="@drawable/icon_remove"
+            />
+
+        <ImageButton
+            android:id="@+id/btnadd"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
             android:background="#00000000"
             android:src="@drawable/icon_add"
             />
 
-        <ImageButton
-            android:id="@+id/btn_remove"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="#00000000"
-            android:src="@drawable/icon_remove"
-            />
+
 
     </LinearLayout>
 

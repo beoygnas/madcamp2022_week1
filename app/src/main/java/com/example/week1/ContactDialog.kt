@@ -66,7 +66,6 @@ class ContactDialog(context: Context) {
             dialog.dismiss()
         }
 
-
         button_call.setOnClickListener {
             val uri = Uri.parse("tel:"+ number)
             var intent = Intent(Intent.ACTION_CALL, uri)
