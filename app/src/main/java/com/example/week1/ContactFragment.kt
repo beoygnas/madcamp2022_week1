@@ -90,6 +90,8 @@ class ContactFragment : Fragment() {
             it.write("{\"contacts\" : []}".toByteArray())
             }
         }
+
+
     }
 
     override fun onCreateView(

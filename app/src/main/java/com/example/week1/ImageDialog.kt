@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide
 
 class ImageDialog(context: Context) {
 
+    val context = context
     private val dialog = Dialog(context)
     val context = context
     private lateinit var imageViewImg : ImageView
