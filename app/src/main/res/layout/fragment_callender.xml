@@ -7,12 +7,41 @@
     android:layout_height="match_parent"
     android:background="#FFFFFF"
     tools:context=".CallendarFragment">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/topappbarlayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+            app:title="Callender">
+
+            <!--            <androidx.appcompat.widget.SearchView-->
+            <!--                android:layout_width="250dp"-->
+            <!--                android:layout_height="match_parent"-->
+            <!--                android:id="@+id/search_view"-->
+            <!--                android:layout_gravity="right"-->
+            <!--                android:layoutDirection="rtl"/>-->
+
+
+        </com.google.android.material.appbar.MaterialToolbar>
+        <!--        When we want to extend functions-->
+        <!--        app:menu="@menu/top_app_bar"-->
+
+    </com.google.android.material.appbar.AppBarLayout>
     <CalendarView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/calendarView"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topappbarlayout"
         app:layout_constraintVertical_bias="0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
