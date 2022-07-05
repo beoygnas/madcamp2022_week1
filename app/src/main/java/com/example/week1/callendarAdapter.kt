@@ -1,17 +1,28 @@
 package com.example.week1
 
+import android.content.Context
 import android.content.res.Resources
+import android.text.Layout
+import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.week1.databinding.CallenderItemBinding
+import com.example.week1.databinding.ItemViewBinding
+import com.google.android.material.internal.ViewUtils.dpToPx
+import com.l4digital.fastscroll.FastScroller
 
 
-class CallendarAdapter(
+class callendarAdapter(
     val context: CallendarFragment,
     private val items: ArrayList<Schedule>,
-) : RecyclerView.Adapter<CallendarAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<callendarAdapter.ViewHolder>() {
 
     var tmp = context
     override fun getItemCount(): Int = items.size
@@ -22,7 +33,7 @@ class CallendarAdapter(
         this.viewtype = num
     }
 
-    override fun onBindViewHolder(holder: CallendarAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: callendarAdapter.ViewHolder, position: Int) {
 
         val item = items[position]
         val listener = View.OnClickListener { it ->
@@ -46,9 +57,9 @@ class CallendarAdapter(
         this.itemClickListener = OnItemClickListener
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CallendarAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): callendarAdapter.ViewHolder {
         val binding = CallenderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return CallendarAdapter.ViewHolder(binding)
+        return callendarAdapter.ViewHolder(binding)
     }
 
     // 각 항목에 필요한 기능을 구현
