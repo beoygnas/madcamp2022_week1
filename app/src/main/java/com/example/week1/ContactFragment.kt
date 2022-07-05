@@ -151,10 +151,8 @@ class ContactFragment : Fragment() {
         requireContext().openFileInput(filename).use { stream ->
             val text = stream.bufferedReader().use { it.readText() }
             jsonstr = text
-            Log.d("TAG", "LOADED: $jsonstr")
         }
         val jsonary = JSONObject(jsonstr).getJSONArray("contacts")
-        Log.d("TAG", "LOADED: $jsonary")
 
 
         for(index in 0 until jsonary.length()){
@@ -189,7 +187,7 @@ class ContactFragment : Fragment() {
                     val jsonObject = JSONObject(jsonstr)
                     val newcontactjson = JSONObject()
 
-                    val imageUri: String = "android.resource://com.example.week1/" + R.drawable.icon_contact_basic
+                    val imageUri: String = "android.resource://com.example.week1/" + R.drawable.icon_profile
 
                     newcontactjson.put("img", imageUri)
                     newcontactjson.put("name", name)

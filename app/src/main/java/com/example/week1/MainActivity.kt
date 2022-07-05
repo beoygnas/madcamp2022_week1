@@ -16,7 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val tabIcon = listOf(
         R.drawable.noun_contact,
-        R.drawable.noun_gallery
+        R.drawable.noun_gallery,
+        R.drawable.noun_callendar
     )
     private val MY_PERMISSION_ACCESS_ALL = 100
     private var permissions = arrayOf(
@@ -50,8 +51,9 @@ class MainActivity : AppCompatActivity() {
                     tab.text = "Gallery"
                     tab.setIcon(tabIcon[position])
                 }
-                else -> {
-                    tab.text = "TBD"
+                2 -> {
+                    tab.text = "Callendar"
+                    tab.setIcon(tabIcon[position])
                 }
             }
         }.attach()
