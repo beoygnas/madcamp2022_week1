@@ -62,7 +62,7 @@ class IntroActivity: AppCompatActivity() {
                 println("Failed Requests")
                 when(permission) {
                     permissions[0] -> showPermissionExplanationDialog("연락처")
-                    permissions[1] -> showPermissionExplanationDialog("저장소")
+                    permissions[1] -> showPermissionExplanationDialog("파일 및 미디어")
                     permissions[2] -> showPermissionExplanationDialog("전화")
                 }
                 // 후에 추가
@@ -96,16 +96,15 @@ class IntroActivity: AppCompatActivity() {
                     if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                         when(permissions[i]) {
                             android.Manifest.permission.READ_CONTACTS -> showPermissionExplanationDialog("연락처")
-                            android.Manifest.permission.READ_EXTERNAL_STORAGE -> showPermissionExplanationDialog("저장소")
+                            android.Manifest.permission.READ_EXTERNAL_STORAGE -> showPermissionExplanationDialog("파일 및 미디어")
                             android.Manifest.permission.CALL_PHONE -> showPermissionExplanationDialog("전화")
                         }
                     }
-
+                    // 한번 변경하고 나서 체크?
+                    onCheckPermission()
                 }
-
             }
         }
-        onCheckPermission()
     }
 
 
