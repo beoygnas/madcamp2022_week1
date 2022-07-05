@@ -59,6 +59,10 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+
+<!--    app:navigationIcon="@drawable/ic_menu_24dp"-->
+
+
     <androidx.viewpager2.widget.ViewPager2
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -68,7 +72,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        />
+        >
+
+    </androidx.viewpager2.widget.ViewPager2>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="0dp"
@@ -80,14 +86,15 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="60dp"
-            android:id="@+id/tabs"
             android:background="@color/white"
             app:tabIndicatorColor="@color/design_default_color_primary"
             app:tabRippleColor="@color/design_default_color_primary"
             app:tabSelectedTextColor="@color/design_default_color_primary"
-            app:tabTextColor="@color/black" />
+            app:tabTextColor="@color/black"
+            tools:ignore="SpeakableTextPresentCheck" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

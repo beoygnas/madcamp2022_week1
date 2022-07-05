@@ -1,15 +1,17 @@
 package com.example.week1
 
+import android.app.SearchManager
 import android.content.Context
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.week1.databinding.FragmentContactBinding
 import org.jetbrains.anko.support.v4.toast
 import org.json.JSONArray
@@ -46,6 +48,7 @@ object OrderKoreanFirst {
         return llen - rlen
     }
 
+
     // 대문자로 치환 후 비교할 예정이므로 대문자 함수만
     private fun isEnglish(ch:Char) : Boolean = ch in 'A'..'Z'
     // 자음, 모음만 있는것도 한글로
@@ -71,6 +74,19 @@ class ContactFragment : Fragment() {
     private val binding get() = _binding!!
 
     lateinit var mainActivity: MainActivity
+
+    var adapter: ContactAdapter? = null
+
+    var searchViewTextListener: SearchView.OnQueryTextListener =
+        object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(s: String?): Boolean = false // 검색버튼 입력시. 검색버튼 없으므로 사용 X
+            override fun onQueryTextChange(s: String?): Boolean {
+                adapter?.filter?.filter(s)
+                binding.phonelistview.adapter = adapter
+                binding.phonelistview.layoutManager = LinearLayoutManager(context)
+                return false
+            }
+        }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -114,6 +130,8 @@ class ContactFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        binding.searchView.setOnQueryTextListener(searchViewTextListener)
 
         binding.phonelistview.addItemDecoration(DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL))
 
@@ -191,13 +209,13 @@ class ContactFragment : Fragment() {
 
 //        listfromjson.sortBy{it.name}
 
-        val adapter = ContactAdapter(this, listfromjson)
+        adapter = ContactAdapter(this, listfromjson)
         binding.phonelistview.adapter = adapter
 
         binding.fastScroller.setSectionIndexer(adapter)
         binding.fastScroller.attachRecyclerView(binding.phonelistview)
 
-        adapter.setItemClickListener(object : ContactAdapter.OnItemClickListener {
+        adapter!!.setItemClickListener(object : ContactAdapter.OnItemClickListener {
             override fun onClick(v: View, position: Int) {
                 val tmpimg = listfromjson[position].img
                 val tmpname = listfromjson[position].name

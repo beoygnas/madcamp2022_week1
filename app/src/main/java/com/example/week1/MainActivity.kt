@@ -32,6 +32,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // Set Action Bar -> Tools gets blocked
+//        setSupportActionBar(binding.topAppBar)
+
+
         binding.viewpager.apply {
             adapter = MyPagerAdapter(context as FragmentActivity)
         }
@@ -46,7 +50,9 @@ class MainActivity : AppCompatActivity() {
                     tab.text = "Gallery"
                     tab.setIcon(tabIcon[position])
                 }
-                else -> tab.text = "TBD"
+                else -> {
+                    tab.text = "TBD"
+                }
             }
         }.attach()
         getPermission()

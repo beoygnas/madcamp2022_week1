@@ -4,6 +4,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -15,7 +17,7 @@ import com.l4digital.fastscroll.FastScroller
 class ContactAdapter(
     val context: ContactFragment,
     private val items: ArrayList<Phone>
-    ) : RecyclerView.Adapter<ContactAdapter.ViewHolder>(), FastScroller.SectionIndexer {
+    ) : RecyclerView.Adapter<ContactAdapter.ViewHolder>(), FastScroller.SectionIndexer, Filterable {
 
     private var chs = arrayOf(
         "ㄱ", "ㄲ", "ㄴ", "ㄷ", "ㄸ",
@@ -24,8 +26,13 @@ class ContactAdapter(
         "ㅋ", "ㅌ", "ㅍ", "ㅎ"
     )
 
+    private var contactSearchList: ArrayList<Phone> = ArrayList<Phone>()
+
+    init {
+        contactSearchList.addAll(items)
+    }
     override fun getSectionText(position: Int): CharSequence {
-        val ch = items[position].name[0]
+        val ch = contactSearchList!![position].name[0]
         val code = ch.code
 
         // When Korean
@@ -53,11 +60,43 @@ class ContactAdapter(
     }
 
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = contactSearchList!!.size
+
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun performFiltering(charSequence: CharSequence): FilterResults {
+                val charString = charSequence.toString()
+                val filterResults = FilterResults()
+
+                if (charString.isEmpty()) {
+                    filterResults.values = items
+                    filterResults.count = items.size
+                } else {
+                    val filteredList = ArrayList<Phone>()
+                    //이부분에서 원하는 데이터를 검색할 수 있음
+                    for (row in items) {
+                        if (row.name.contains(charString) || row.number.contains(charString)) {
+                            filteredList.add(row)
+                        }
+                    }
+                    filterResults.values = filteredList
+                    filterResults.count = filteredList.size
+                }
+
+                return filterResults
+            }
+            override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
+                contactSearchList.clear()
+                contactSearchList.addAll(filterResults.values as ArrayList<Phone>)
+                println(filterResults.values)
+                notifyDataSetChanged()
+            }
+        }
+    }
 
     override fun onBindViewHolder(holder: ContactAdapter.ViewHolder, position: Int) {
 
-        val item = items[position]
+        val item = contactSearchList!![position]
         val listener = View.OnClickListener { it ->
             Toast.makeText(it.context, "Clicked -> Name : ${item.name}, Number : ${item.number}", Toast.LENGTH_SHORT).show()
         }
@@ -87,6 +126,9 @@ class ContactAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+
+        // init SearchList
+//        contactSearchList = items
         return ViewHolder(binding)
     }
 
