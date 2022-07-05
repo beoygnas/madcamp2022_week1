@@ -44,15 +44,15 @@ class MainActivity : AppCompatActivity() {
         TabLayoutMediator(binding.tabs, binding.viewpager) { tab, position ->
             when (position) {
                 0 -> {
-                    tab.text = "Contact"
+                    tab.text = "연락처"
                     tab.setIcon(tabIcon[position])
                 }
                 1 -> {
-                    tab.text = "Gallery"
+                    tab.text = "갤러리"
                     tab.setIcon(tabIcon[position])
                 }
                 2 -> {
-                    tab.text = "Callendar"
+                    tab.text = "캘린더"
                     tab.setIcon(tabIcon[position])
                 }
             }

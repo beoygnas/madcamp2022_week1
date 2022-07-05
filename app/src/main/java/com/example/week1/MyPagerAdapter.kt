@@ -15,7 +15,7 @@ class MyPagerAdapter(fa: FragmentActivity) : FragmentStateAdapter(fa) {
         return when (position) {
             0 -> { ContactFragment.newInstance("Contact", "") }
             1 -> { GalleryFragment.newInstance("Gallery", "") }
-            else -> { CallendarFragment.newInstance("TBD", "") }
+            else -> { CallendarFragment.newInstance("Callendar", "") }
         }
     }
 

@@ -1,157 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#FFFFFF"
-    tools:context=".CallendarFragment">
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topappbarlayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+    android:background="#F5F8FD"
+    android:layout_height="match_parent">
 
-        <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#FFFFFF"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-            app:title="Callender">
+            tools:context=".CallendarFragment">
+            <com.google.android.material.appbar.AppBarLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/topappbarlayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-            <!--            <androidx.appcompat.widget.SearchView-->
-            <!--                android:layout_width="250dp"-->
-            <!--                android:layout_height="match_parent"-->
-            <!--                android:id="@+id/search_view"-->
-            <!--                android:layout_gravity="right"-->
-            <!--                android:layoutDirection="rtl"/>-->
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/topAppBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#FFFFFF"
+                    android:minHeight="?attr/actionBarSize"
+                    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+                    app:title="Callender">
 
-
-        </com.google.android.material.appbar.MaterialToolbar>
-        <!--        When we want to extend functions-->
-        <!--        app:menu="@menu/top_app_bar"-->
-
-    </com.google.android.material.appbar.AppBarLayout>
-    <CalendarView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/calendarView"
-        app:layout_constraintTop_toBottomOf="@id/topappbarlayout"
-        app:layout_constraintVertical_bias="0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginLeft="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"/>
-
-        <TextView
-            android:id="@+id/textview"
-            android:text = "일정"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#000000"
-            android:textSize="30dp"
-            android:textStyle="bold"
-            android:fontFamily="@font/applesdgothicneob"
-            android:visibility="invisible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarView"
-            app:layout_constraintVertical_bias="0"
-            />
+                    <!--            <androidx.appcompat.widget.SearchView-->
+                    <!--                android:layout_width="250dp"-->
+                    <!--                android:layout_height="match_parent"-->
+                    <!--                android:id="@+id/search_view"-->
+                    <!--                android:layout_gravity="right"-->
+                    <!--                android:layoutDirection="rtl"/>-->
 
 
+                </com.google.android.material.appbar.MaterialToolbar>
+                <!--        When we want to extend functions-->
+                <!--        app:menu="@menu/top_app_bar"-->
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/calendarlist"
-            android:layout_width="350dp"
-            android:layout_height="250dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textview"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintVertical_bias="0.1"
+            </com.google.android.material.appbar.AppBarLayout>
+            <CalendarView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/calendarView"
+                app:layout_constraintTop_toBottomOf="@id/topappbarlayout"
+                app:layout_constraintVertical_bias="0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginLeft="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="0dp"/>
 
-            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/callender_item" />
+            <TextView
+                android:id="@+id/textview"
+                android:text = "일정"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="30dp"
+                android:fontFamily="@font/applesdgothicneob"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView"
+                app:layout_constraintVertical_bias="0.05"
+                />
 
-    <TextView
-        android:id="@+id/emptytext"
-        android:visibility="invisible"
-        android:hint = "일정이 비어있습니다."
-        android:layout_width="350dp"
-        android:layout_height="250dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textview"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.1"
-        tools:listitem="@layout/callender_item" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/calendarlist"
+                android:layout_width="350dp"
+                android:layout_height="250dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0.1"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:listitem="@layout/callender_item"
+                />
 
+            <TextView
+                android:id="@+id/emptytext"
+                android:visibility="invisible"
+                android:hint = "일정이 비어있습니다."
+                android:layout_width="350dp"
+                android:layout_height="100dp"
+                android:gravity="center"
+                android:textAlignment="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textview"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintVertical_bias="0.2"
+                tools:listitem="@layout/callender_item" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id ="@+id/btnframe"
+                app:layout_constraintBottom_toTopOf="@+id/calendarlist"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintVertical_bias="0.95"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview"
+                android:visibility="invisible"
+                >
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id ="@+id/btnframe"
-        app:layout_constraintBottom_toTopOf="@+id/calendarlist"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview"
-        android:visibility="invisible"
-        >
+                <ImageButton
+                    android:id="@+id/btnremove"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000"
+                    android:src="@drawable/icon_remove"
+                    />
 
-        <ImageButton
-            android:id="@+id/btnremove"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:background="#00000000"
-            android:src="@drawable/icon_remove"
-            />
+                <ImageButton
+                    android:id="@+id/btnadd"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter"
+                    android:background="#00000000"
+                    android:src="@drawable/icon_add"
+                    />
+            </LinearLayout>
 
-        <ImageButton
-            android:id="@+id/btnadd"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:background="#00000000"
-            android:src="@drawable/icon_add"
-            />
-    </LinearLayout>
-
-    <ImageButton
-        android:id="@+id/btnok"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:visibility="invisible"
-        android:adjustViewBounds="true"
-        android:scaleType="fitCenter"
-        android:background="#00000000"
-        android:src="@drawable/icon_ok"
-        app:layout_constraintBottom_toTopOf="@+id/calendarlist"
-        app:layout_constraintTop_toBottomOf="@+id/calendarView"
-        app:layout_constraintHorizontal_bias="0.9"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textview"
-
-        />
-
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <ImageButton
+                android:id="@+id/btnok"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:visibility="invisible"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
+                android:src="@drawable/icon_ok"
+                app:layout_constraintBottom_toTopOf="@+id/calendarlist"
+                app:layout_constraintTop_toBottomOf="@+id/calendarView"
+                app:layout_constraintHorizontal_bias="0.9"
+                app:layout_constraintVertical_bias="0.95"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/textview"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,17 +1,21 @@
 package com.example.week1
 
+import android.content.Context
+import android.content.res.Resources
 import android.text.Layout
 import android.util.Log
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import android.widget.Toolbar
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.week1.databinding.CallenderItem2Binding
 import com.example.week1.databinding.CallenderItemBinding
 import com.example.week1.databinding.ItemViewBinding
+import com.google.android.material.internal.ViewUtils.dpToPx
 import com.l4digital.fastscroll.FastScroller
 
 
@@ -20,6 +24,7 @@ class callendarAdapter(
     private val items: ArrayList<Schedule>,
 ) : RecyclerView.Adapter<callendarAdapter.ViewHolder>() {
 
+    var tmp = context
     override fun getItemCount(): Int = items.size
     private lateinit var itemClickListener : OnItemClickListener
     var viewtype = 0
@@ -61,8 +66,21 @@ class callendarAdapter(
     class ViewHolder(var binding : CallenderItemBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(listener: View.OnClickListener, item: Schedule, viewtype: Int) {
             binding.content.text = item.content
-            if(viewtype == 1)
+            if(viewtype == 1) {
                 binding.image.setImageResource(R.drawable.icon_bin)
+                var params = binding.image.layoutParams
+
+                params.height = (20 * Resources.getSystem().displayMetrics.density).toInt()
+                params.width = (20 * Resources.getSystem().displayMetrics.density).toInt()
+
+                binding.image.layoutParams = params
+            }
+            else{
+                var params = binding.image.layoutParams
+                params.height = (10 * Resources.getSystem().displayMetrics.density).toInt()
+                params.width = (10 * Resources.getSystem().displayMetrics.density).toInt()
+                binding.image.layoutParams = params
+            }
         }
     }
 }

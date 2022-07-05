@@ -13,10 +13,10 @@
     <TextView
         android:id="@+id/dialog_name"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="100dp"
         android:textAlignment="center"
-        android:textSize="20sp"
-        android:gravity="bottom"
+        android:textSize="25sp"
+        android:gravity="center"
         android:fontFamily="@font/applesdgothicneob"
         android:textColor="#000000"
         android:text="TextView" />
@@ -24,10 +24,10 @@
     <TextView
         android:id="@+id/dialog_number"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:textSize="20sp"
         android:textAlignment="center"
-        android:gravity="center"
+        android:gravity="top"
         android:fontFamily="@font/applesdgothicneol"
         android:text="TextView" />
 
