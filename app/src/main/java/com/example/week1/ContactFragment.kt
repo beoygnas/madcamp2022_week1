@@ -78,7 +78,7 @@ class ContactFragment : Fragment() {
     var adapter: ContactAdapter? = null
 
     private val listfromjson = ArrayList<Phone>()
-    private val namelist = ArrayList<String>()
+    private val checklist = ArrayList<Boolean>()
     private val filename = "contacts.json"
 
 
@@ -100,7 +100,7 @@ class ContactFragment : Fragment() {
 
         // Refresh가 activity 전부를 초기화할땐 항상 Arr가 초기화되지만 notify로하면 초기화 필요할 것
         listfromjson.clear()
-        namelist.clear()
+        checklist.clear()
 
         var jsonstr : String
 
@@ -108,8 +108,8 @@ class ContactFragment : Fragment() {
             val text = stream.bufferedReader().use { it.readText() }
             jsonstr = text
         }
-        val jsonary = JSONObject(jsonstr).getJSONArray("contacts")
 
+        val jsonary = JSONObject(jsonstr).getJSONArray("contacts")
 
         for(index in 0 until jsonary.length()){
             val jsonobj = jsonary.getJSONObject(index)
@@ -118,7 +118,7 @@ class ContactFragment : Fragment() {
             val number = jsonobj.getString("number")
             val phone = Phone(img, name, number)
             listfromjson.add(phone)
-            namelist.add(name)
+            checklist.add(false)
         }
 
         // 내부저장소와 연락처 동기화  ========================================================= //
@@ -137,12 +137,18 @@ class ContactFragment : Fragment() {
 
                 val name = cursor.getString(0).orEmpty()
                 val number = cursor.getString(1).orEmpty()
+                var idx = -1
 
-                if (!namelist.contains(name)) {
-                    // json에 연락처 추가
+                for(index in 0 until listfromjson.size){
+                    val obj = listfromjson[index]
+                    if(obj.name == name && obj.number == number) {
+                        checklist[index] = true
+                        idx = index
+                    }
+                }
+                if(idx == -1){
                     val jsonObject = JSONObject(jsonstr)
                     val newcontactjson = JSONObject()
-
                     val imageUri: String = "android.resource://com.example.week1/" + R.drawable.icon_contact_basic
 
                     newcontactjson.put("img", imageUri)
@@ -155,9 +161,37 @@ class ContactFragment : Fragment() {
                     // jsonlist에 추가
                     val phone = Phone(imageUri, name, number)
                     listfromjson.add(phone)
+                    checklist.add(true)
                 }
+                Log.d("str", listfromjson.toString())
             }
             cursor.close()
+
+
+            var newlistfromjson = ArrayList<Phone>()
+            val newjsonArray = JSONArray()
+
+            for(index in 0 until listfromjson.size){
+                if(checklist[index] == false)
+                    continue
+                else{
+                    newlistfromjson.add(listfromjson[index])
+                    val obj = listfromjson[index]
+                    val tmpobj = JSONObject()
+                    tmpobj.put("img", obj.img)
+                    tmpobj.put("name", obj.name)
+                    tmpobj.put("number", obj.number)
+                    newjsonArray.put(tmpobj)
+                }
+            }
+            listfromjson.clear()
+            listfromjson.addAll(newlistfromjson)
+
+            var newjsonObject = JSONObject()
+            newjsonObject.put("contacts", newjsonArray)
+            requireContext().openFileOutput("contacts.json", Context.MODE_PRIVATE).use {
+                it.write(newjsonObject.toString().toByteArray())
+            }
         }
         listfromjson.sortWith(Comparator(OrderKoreanFirst::compare))
         println(listfromjson)
@@ -223,6 +257,7 @@ class ContactFragment : Fragment() {
 //            requireActivity().recreate()
             binding.refreshContact.isRefreshing = false
         }
+
 
         loadContact()
 //        listfromjson.sortBy{it.name}

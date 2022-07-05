@@ -2,6 +2,7 @@ package com.example.week1
 
 import android.app.Dialog
 import android.content.Context
+import android.graphics.drawable.ColorDrawable
 import android.view.WindowManager
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -29,6 +30,7 @@ class ImageDialog(context: Context) {
         dialog.window!!.setLayout(display.widthPixels*7/8, display.heightPixels*3/4)
         dialog.setCanceledOnTouchOutside(true)
         dialog.setCancelable(true)
+        dialog.window!!.setBackgroundDrawable(ColorDrawable(android.graphics.Color.TRANSPARENT))
 
         imageViewImg = dialog.findViewById(R.id.dialog_img)
         buttonBack = dialog.findViewById(R.id.btn_back)

@@ -62,9 +62,6 @@ class CallendarFragment : Fragment() {
         var jsonArray = JSONArray()
         var listfromjson = ArrayList<Schedule>()
 
-//        adapter = callendarAdapter(this, listfromjson)
-//        binding.calendarlist.adapter = adapter
-
         binding.calendarView.setOnDateChangeListener{ view, year, month, dayOfMonth ->
             binding.textview.visibility = View.VISIBLE
             binding.btnframe.visibility = View.VISIBLE
@@ -199,11 +196,8 @@ class CallendarFragment : Fragment() {
                                 newjsonArray.put(tmpobj)
                             }
 
-                            Log.d("strprev" , listfromjson.toString())
                             listfromjson.removeAt(idx)
                             adapter.notifyDataSetChanged();
-                            Log.d("strnxt" , listfromjson.toString())
-                            Log.d("str" , ""+idx)
 
                             var newjsonObject = JSONObject()
                             newjsonObject.put(datestr, newjsonArray)
