@@ -77,6 +77,12 @@ class ContactFragment : Fragment() {
 
     var adapter: ContactAdapter? = null
 
+    private val listfromjson = ArrayList<Phone>()
+    private val namelist = ArrayList<String>()
+    private val filename = "contacts.json"
+
+
+
     var searchViewTextListener: SearchView.OnQueryTextListener =
         object: SearchView.OnQueryTextListener{
             override fun onQueryTextSubmit(s: String?): Boolean = false // 검색버튼 입력시. 검색버튼 없으므로 사용 X
@@ -88,64 +94,14 @@ class ContactFragment : Fragment() {
             }
         }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        mainActivity = context as MainActivity
-    }
+    private fun loadContact() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-        val files : Array<String> = requireContext().fileList()
-        if(!files.contains("contacts.json")){
-            requireContext().openFileOutput("contacts.json", Context.MODE_PRIVATE).use{
-            it.write("{\"contacts\" : []}".toByteArray())
-            }
-        }
-
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_contact, container, false)
-        _binding = FragmentContactBinding.inflate(inflater, container, false)
-
-        return binding.root
-    }
-
-
-    override fun onDestroyView() {
-        binding.fastScroller.detachRecyclerView()
-        _binding = null
-        super.onDestroyView()
-    }
-
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        binding.searchView.setOnQueryTextListener(searchViewTextListener)
-
-        binding.phonelistview.addItemDecoration(DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL))
-
-        binding.refreshContact.setOnRefreshListener {
-            toast("Refreshed!!")
-            requireActivity().recreate()
-            binding.refreshContact.isRefreshing = false
-        }
         // 내부저장소의 json파일에서 연락처+사진 정보 불러오기 ============================================ //
 
-        val listfromjson = ArrayList<Phone>()
-        val namelist = ArrayList<String>()
+        // Refresh가 activity 전부를 초기화할땐 항상 Arr가 초기화되지만 notify로하면 초기화 필요할 것
+        listfromjson.clear()
+        namelist.clear()
 
-        val filename = "contacts.json"
         var jsonstr : String
 
         requireContext().openFileInput(filename).use { stream ->
@@ -204,7 +160,71 @@ class ContactFragment : Fragment() {
             cursor.close()
         }
         listfromjson.sortWith(Comparator(OrderKoreanFirst::compare))
+        println(listfromjson)
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mainActivity = context as MainActivity
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        arguments?.let {
+            param1 = it.getString(ARG_PARAM1)
+            param2 = it.getString(ARG_PARAM2)
+        }
+
+        val files : Array<String> = requireContext().fileList()
+        if(!files.contains("contacts.json")){
+            requireContext().openFileOutput("contacts.json", Context.MODE_PRIVATE).use{
+            it.write("{\"contacts\" : []}".toByteArray())
+            }
+        }
+
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_contact, container, false)
+        _binding = FragmentContactBinding.inflate(inflater, container, false)
+
+        return binding.root
+    }
+
+
+    override fun onDestroyView() {
+        binding.fastScroller.detachRecyclerView()
+        _binding = null
+        super.onDestroyView()
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+
+        binding.searchView.setOnQueryTextListener(searchViewTextListener)
+
+        binding.phonelistview.addItemDecoration(DividerItemDecoration(mainActivity, DividerItemDecoration.VERTICAL))
+
+        binding.refreshContact.setOnRefreshListener {
+            toast("Refreshed!!")
+            // Load Contact from Phone
+            // Update adapter
+            // Notify
+            loadContact()
+            adapter = ContactAdapter(this, listfromjson)
+
+            binding.phonelistview.adapter = adapter
+
+//            requireActivity().recreate()
+            binding.refreshContact.isRefreshing = false
+        }
+
+        loadContact()
 //        listfromjson.sortBy{it.name}
 
         adapter = ContactAdapter(this, listfromjson)
@@ -213,66 +233,6 @@ class ContactFragment : Fragment() {
         binding.fastScroller.setSectionIndexer(adapter)
         binding.fastScroller.attachRecyclerView(binding.phonelistview)
 
-        adapter!!.setItemClickListener(object : ContactAdapter.OnItemClickListener {
-            override fun onClick(v: View, position: Int) {
-                val tmpimg = listfromjson[position].img
-                val tmpname = listfromjson[position].name
-                val tmpnumber = listfromjson[position].number
-
-                val dialog = ContactDialog(requireContext())
-                dialog.showDialog(tmpimg, tmpname, tmpnumber)
-                dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
-                    override fun onClicked(change: String) {
-                        if(change == "yes") {
-                            val dialog2 = GalleryDialog(requireContext())
-                            dialog2.showDialog()
-                            dialog2.setOnClickListener(object : GalleryDialog.ItemClickListener {
-                                override fun onClicked(uri: String) {
-                                    if (uri != "none" && uri != "cancel") {
-                                        listfromjson[position].img = uri
-                                        val jsonObjectlist = JSONArray()
-                                        for (index in 0 until listfromjson.size) {
-                                            val phoneobj = listfromjson[index]
-                                            val newcontactjson = JSONObject()
-                                            newcontactjson.put("img", phoneobj.img)
-                                            newcontactjson.put("name", phoneobj.name)
-                                            newcontactjson.put("number", phoneobj.number)
-                                            jsonObjectlist.put(newcontactjson)
-                                        }
-                                        val jsonObject = JSONObject()
-                                        jsonObject.put("contacts", jsonObjectlist)
-                                        requireContext().openFileOutput(
-                                            filename,
-                                            Context.MODE_PRIVATE
-                                        ).use {
-                                            it.write(jsonObject.toString().toByteArray())
-                                        }
-                                        requireActivity().recreate()
-                                    } else if (uri == "cancel") {
-                                        dialog.showDialog(tmpimg, tmpname, tmpnumber)
-                                    } else {
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "사진을 선택해주세요!",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                    }
-                                }
-                            })
-                        }
-                        else{
-                            val dialog2 = ImageDialog(requireContext())
-                            dialog2.showDialog(tmpimg)
-                            dialog2.setOnClickListener(object : ImageDialog.BtnClickListener{
-                                override fun onClicked(change: String) {
-                                    dialog.showDialog(tmpimg, tmpname, tmpnumber)
-                                }
-                            })
-                        }
-                    }
-                })
-            }
-        })
     }
     companion object {
         // TODO: Rename and change types and number of parameters

@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_search_24dp.xml" value="0.307" />
         <entry key="app/src/main/res/drawable/list_divider.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2632568359375" />
+        <entry key="app/src/main/res/layout/callendarremove_dialog.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/contact_dialog.xml" value="0.3088851928710938" />
         <entry key="app/src/main/res/layout/contact_dialogue.xml" value="0.2786458333333333" />
         <entry key="app/src/main/res/layout/fragment.profile.xml" value="0.234375" />

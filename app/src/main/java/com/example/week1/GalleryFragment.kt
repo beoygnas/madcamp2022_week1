@@ -39,13 +39,12 @@ class GalleryFragment : Fragment() {
     private val uriArr: ArrayList<String> = ArrayList()
     private val dateArr: ArrayList<Date> = ArrayList()
 
-//    private fun refreshFragment(fragment: Fragment, fragmentManager: FragmentManager) {
-//        var ft: FragmentTransaction = fragmentManager.beginTransaction()
-//        ft.detach(fragment).attach(fragment).commit()
-//    }
+
     private fun loadImage() {
 
-
+        // Refresh가 activity 전부를 초기화할땐 항상 uriArr, dateArr이 초기화되지만 notify로하면 초기화 필요할 것
+        uriArr.clear()
+        dateArr.clear()
         val cursor = requireActivity().contentResolver.query(
             MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
             null,
@@ -92,17 +91,6 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 //        binding.textview.text = param1
-        binding.refreshGallery.setOnRefreshListener {
-            toast("Refreshed!!")
-            requireActivity().recreate()
-//            refreshFragment(this, parentFragmentManager)
-
-            // For library
-//            binding.refreshGallery.setRefreshing(false)
-            // For basic SwipeRefreshLayout
-            binding.refreshGallery.isRefreshing = false
-        }
-
 
         loadImage()
         // Change spanCount for number of columns
@@ -125,11 +113,6 @@ class GalleryFragment : Fragment() {
 
         rvLayoutManager = GridLayoutManager(context, spanCount)
         rvAdapter = GalleryAdapter(this, uriArr, dateArr, display.widthPixels/spanCount)
-        binding.recyclerView.apply {
-            setLayoutManager(rvLayoutManager)
-            setAdapter(rvAdapter)
-        }
-
         rvAdapter.setItemClickListener(object : GalleryAdapter.OnItemClickListener{
             override fun onClick(v: View, position : Int){
                 uri = uriArr[position]
@@ -142,6 +125,46 @@ class GalleryFragment : Fragment() {
                 })
             }
         })
+        binding.recyclerView.apply {
+            setLayoutManager(rvLayoutManager)
+            setAdapter(rvAdapter)
+        }
+
+
+        binding.refreshGallery.setOnRefreshListener {
+            toast("Refreshed!!")
+
+            // Updating Adapter
+            // Load Contact from Phone
+            // Update adapter
+            // Notify
+            loadImage()
+//            rvLayoutManager = GridLayoutManager(context, spanCount)
+            rvAdapter = GalleryAdapter(this, uriArr, dateArr, display.widthPixels/spanCount)
+            rvAdapter.setItemClickListener(object : GalleryAdapter.OnItemClickListener{
+                override fun onClick(v: View, position : Int){
+                    uri = uriArr[position]
+
+                    val dialog = ImageDialog(requireContext())
+                    dialog.showDialog(uri)
+                    dialog.setOnClickListener(object : ImageDialog.BtnClickListener{
+                        override fun onClicked(change: String) {
+                        }
+                    })
+                }
+            })
+            binding.recyclerView.apply {
+                setLayoutManager(rvLayoutManager)
+                setAdapter(rvAdapter)
+            }
+
+            // Updating Activity
+//            requireActivity().recreate()
+
+
+            // For basic SwipeRefreshLayout
+            binding.refreshGallery.isRefreshing = false
+        }
 
     }
 

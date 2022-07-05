@@ -1,5 +1,6 @@
 package com.example.week1
 
+import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -7,11 +8,14 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.week1.databinding.ItemViewBinding
 import com.l4digital.fastscroll.FastScroller
+import org.json.JSONArray
+import org.json.JSONObject
 
 
 class ContactAdapter(
@@ -88,7 +92,7 @@ class ContactAdapter(
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
                 contactSearchList.clear()
                 contactSearchList.addAll(filterResults.values as ArrayList<Phone>)
-                println(filterResults.values)
+//                println(filterResults.values)
                 notifyDataSetChanged()
             }
         }
@@ -104,8 +108,72 @@ class ContactAdapter(
             bind(listener, item)
 //            itemView.tag = item
         }
+
         holder.itemView.setOnClickListener{
-            itemClickListener.onClick(it, position)
+
+            // 클릭 리스너 간략화 구상
+            (object : ContactAdapter.OnItemClickListener {
+                override fun onClick(v: View, position: Int) {
+                    val tmpimg = contactSearchList[position].img
+                    val tmpname = contactSearchList[position].name
+                    val tmpnumber = contactSearchList[position].number
+
+                    val dialog = ContactDialog(context.mainActivity)
+                    dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                    dialog.setOnClickListener(object : ContactDialog.BtnClickListener {
+                        override fun onClicked(change: String) {
+                            if (change == "yes") {
+                                val dialog2 = GalleryDialog(context.mainActivity)
+                                dialog2.showDialog()
+                                dialog2.setOnClickListener(object :
+                                    GalleryDialog.ItemClickListener {
+                                    override fun onClicked(uri: String) {
+                                        if (uri != "none" && uri != "cancel") {
+                                            contactSearchList[position].img = uri
+                                            val jsonObjectlist = JSONArray()
+                                            for (index in 0 until contactSearchList.size) {
+                                                val phoneobj = contactSearchList[index]
+                                                val newcontactjson = JSONObject()
+                                                newcontactjson.put("img", phoneobj.img)
+                                                newcontactjson.put("name", phoneobj.name)
+                                                newcontactjson.put("number", phoneobj.number)
+                                                jsonObjectlist.put(newcontactjson)
+                                            }
+                                            val jsonObject = JSONObject()
+                                            jsonObject.put("contacts", jsonObjectlist)
+                                            context.mainActivity.openFileOutput(
+                                                "contacts.json",
+                                                Context.MODE_PRIVATE
+                                            ).use {
+                                                it.write(jsonObject.toString().toByteArray())
+                                            }
+                                            context.mainActivity.recreate()
+                                        } else if (uri == "cancel") {
+                                            dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                                        } else {
+                                            Toast.makeText(
+                                                context.mainActivity,
+                                                "사진을 선택해주세요!",
+                                                Toast.LENGTH_SHORT
+                                            ).show()
+                                        }
+                                    }
+                                })
+                            } else {
+                                val dialog2 = ImageDialog(context.mainActivity)
+                                dialog2.showDialog(tmpimg)
+                                dialog2.setOnClickListener(object : ImageDialog.BtnClickListener {
+                                    override fun onClicked(change: String) {
+                                        dialog.showDialog(tmpimg, tmpname, tmpnumber)
+                                    }
+                                })
+                            }
+                        }
+                    })
+                }
+            }).onClick(it, position)
+
+//            itemClickListener.onClick(it, position)
         }
         val option1 = RequestOptions().circleCrop()
 
@@ -117,12 +185,12 @@ class ContactAdapter(
     interface OnItemClickListener{
         fun onClick(v:View, position:Int)
     }
-
-    fun setItemClickListener(OnItemClickListener : OnItemClickListener){
-        this.itemClickListener = OnItemClickListener
-    }
-
-    private lateinit var itemClickListener : OnItemClickListener
+//
+//    fun setItemClickListener(OnItemClickListener : OnItemClickListener){
+//        this.itemClickListener = OnItemClickListener
+//    }
+//
+//    private lateinit var itemClickListener : OnItemClickListener
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemViewBinding.inflate(LayoutInflater.from(parent.context), parent, false)
