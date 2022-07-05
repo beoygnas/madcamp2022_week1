@@ -14,13 +14,13 @@
 
     <ImageView
         android:id="@+id/image"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
         android:src = "@drawable/icon_dot"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintEnd_toEndOf="parent"
         />
 
@@ -31,9 +31,9 @@
         android:layout_gravity="center"
         android:fontFamily="@font/applesdgothicneom"
         android:text="일정과 메모를 기록할 수 있습니다."
-        android:textSize="20dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:textSize="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:textColor="#000000"
         app:layout_constraintStart_toEndOf="@+id/image"
         app:layout_constraintHorizontal_bias="0.05"

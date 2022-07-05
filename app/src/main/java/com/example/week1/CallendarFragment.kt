@@ -158,12 +158,13 @@ class CallendarFragment : Fragment() {
                         }
                         listfromjson.add(0, Schedule(content, regdata))
 
+                        adapter = callendarAdapter(this@CallendarFragment, listfromjson)
+                        binding.calendarlist.adapter = adapter
+
                         binding.emptytext.visibility = View.INVISIBLE
                         binding.calendarlist.visibility = View.VISIBLE
-                        adapter.notifyItemInserted(0);
                     }
                 }
-
             })
         }
 
