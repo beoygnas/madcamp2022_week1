@@ -45,7 +45,6 @@ class CallendarFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentCallenderBinding.inflate(inflater, container, false)
-        _binding2 = CallenderItemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -54,14 +53,7 @@ class CallendarFragment : Fragment() {
         super.onDestroyView()
     }
 
-    override fun onResume() {
-        super.onResume()
-
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-
-        val assetManager = resources.assets
 
         var selected_year : Int = 0
         var selected_month : Int = 0
@@ -72,6 +64,8 @@ class CallendarFragment : Fragment() {
         var jsonArray = JSONArray()
         var listfromjson = ArrayList<Schedule>()
 
+//        adapter = callendarAdapter(this, listfromjson)
+//        binding.calendarlist.adapter = adapter
 
         binding.calendarView.setOnDateChangeListener{ view, year, month, dayOfMonth ->
             binding.textview.visibility = View.VISIBLE
@@ -134,14 +128,21 @@ class CallendarFragment : Fragment() {
                 binding.calendarlist.visibility = View.INVISIBLE
             }
             else {
-                adapter = callendarAdapter(this, listfromjson, 0)
+                adapter = callendarAdapter(this, listfromjson)
                 binding.calendarlist.adapter = adapter
+
+                binding.calendarlist.adapter?.notifyDataSetChanged()
                 binding.emptytext.visibility = View.INVISIBLE
                 binding.calendarlist.visibility = View.VISIBLE
             }
         }
 
         binding.btnadd.setOnClickListener{
+
+            adapter = callendarAdapter(this, listfromjson)
+            adapter.setviewtype(0)
+            binding.calendarlist.adapter = adapter
+
             val dialog = CallendaraddDialog(requireContext())
             dialog.showDialog(selected_year, selected_month, selected_day)
             dialog.setOnClickListener(object : CallendaraddDialog.BtnClickListener{
@@ -157,26 +158,20 @@ class CallendarFragment : Fragment() {
                         }
                         listfromjson.add(0, Schedule(content, regdata))
 
-                        if(listfromjson.size == 0) {
-                            binding.emptytext.visibility = View.VISIBLE
-                            binding.calendarlist.visibility = View.INVISIBLE
-                        }
-                        else {
-                            adapter = callendarAdapter(this@CallendarFragment, listfromjson, 0)
-                            binding.calendarlist.adapter = adapter
-                            binding.emptytext.visibility = View.INVISIBLE
-                            binding.calendarlist.visibility = View.VISIBLE
-                        }
+                        binding.calendarlist.adapter?.notifyItemInserted(0);
+                        binding.emptytext.visibility = View.INVISIBLE
+                        binding.calendarlist.visibility = View.VISIBLE
                     }
                 }
+
             })
         }
 
         binding.btnremove.setOnClickListener{
 
-            adapter = callendarAdapter(this@CallendarFragment, listfromjson, 1)
+            adapter = callendarAdapter(this, listfromjson)
+            adapter.setviewtype(1)
             binding.calendarlist.adapter = adapter
-            Log.d("str", "1")
 
             //삭제
             adapter.setItemClickListener(object : callendarAdapter.OnItemClickListener {
@@ -184,48 +179,48 @@ class CallendarFragment : Fragment() {
                     val tmpcontent = listfromjson[position].content
                     val tmpregdata = listfromjson[position].regdata
                     val dialog = CallendarremoveDialog(requireContext())
+                    var idx = 0
+                    Log.d("content", tmpcontent)
+                    Log.d("regdata", tmpregdata)
+
                     dialog.showDialog()
                     dialog.setOnClickListener(object : CallendarremoveDialog.BtnClickListener{
                         override fun onClicked(content: String) {
-                            if(content == "yes"){
-                                val newjsonArray = JSONArray()
-                                for(index in 0 until listfromjson.size){
-                                    val obj = listfromjson[listfromjson.size - 1 - index]
-                                    if(tmpcontent == obj.content && tmpregdata == obj.regdata) {
-                                        listfromjson.removeAt(listfromjson.size-1-index)
-                                        continue
-                                    }
-                                    val tmpobj = JSONObject()
-                                    tmpobj.put("content", obj.content)
-                                    tmpobj.put("regdata", obj.regdata)
-                                    newjsonArray.put(tmpobj)
-                                }
 
-                                var newjsonObject = JSONObject()
-                                newjsonObject.put(datestr, newjsonArray)
-                                requireContext().openFileOutput(
-                                    datestr+".json",
-                                    Context.MODE_PRIVATE
-                                ).use {
-                                    it.write(newjsonObject.toString().toByteArray())
+                            val newjsonArray = JSONArray()
+                            for(index in 0 until listfromjson.size){
+                                val obj = listfromjson[listfromjson.size - 1 - index]
+                                if(tmpcontent == obj.content && tmpregdata == obj.regdata) {
+                                    idx = (listfromjson.size-1)-index
+                                    continue
                                 }
+                                val tmpobj = JSONObject()
+                                tmpobj.put("content", obj.content)
+                                tmpobj.put("regdata", obj.regdata)
+                                newjsonArray.put(tmpobj)
+                            }
+
+                            Log.d("strprev" , listfromjson.toString())
+                            listfromjson.removeAt(idx)
+                            adapter.notifyDataSetChanged();
+                            Log.d("strnxt" , listfromjson.toString())
+                            Log.d("str" , ""+idx)
+
+                            var newjsonObject = JSONObject()
+                            newjsonObject.put(datestr, newjsonArray)
+                            requireContext().openFileOutput(datestr+".json", Context.MODE_PRIVATE).use {
+                                it.write(newjsonObject.toString().toByteArray())
+                            }
+
+
+                            if(listfromjson.size == 0) {
+                                binding.emptytext.visibility = View.VISIBLE
+                                binding.calendarlist.visibility = View.INVISIBLE
                             }
                         }
                     })
                 }
             })
-
-            if(listfromjson.size == 0) {
-                binding.emptytext.visibility = View.VISIBLE
-                binding.calendarlist.visibility = View.INVISIBLE
-            }
-            else {
-                adapter = callendarAdapter(this@CallendarFragment, listfromjson, 1)
-                binding.calendarlist.adapter = adapter
-                binding.emptytext.visibility = View.INVISIBLE
-                binding.calendarlist.visibility = View.VISIBLE
-            }
-
             binding.btnremove.visibility = View.INVISIBLE
             binding.btnadd.visibility = View.INVISIBLE
             binding.btnok.visibility = View.VISIBLE
@@ -238,27 +233,21 @@ class CallendarFragment : Fragment() {
                 binding.calendarlist.visibility = View.INVISIBLE
             }
             else {
-                adapter = callendarAdapter(this@CallendarFragment, listfromjson, 0)
+                adapter = callendarAdapter(this@CallendarFragment, listfromjson)
+                adapter.viewtype = 0
                 binding.calendarlist.adapter = adapter
                 binding.emptytext.visibility = View.INVISIBLE
                 binding.calendarlist.visibility = View.VISIBLE
             }
+
             binding.btnremove.visibility = View.VISIBLE
             binding.btnadd.visibility = View.VISIBLE
             binding.btnok.visibility = View.INVISIBLE
         }
+
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MyFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             CallendarFragment().apply {

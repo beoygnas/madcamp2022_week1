@@ -1,6 +1,7 @@
 package com.example.week1
 
 import android.text.Layout
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,30 +11,36 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.week1.databinding.CallenderItem2Binding
 import com.example.week1.databinding.CallenderItemBinding
+import com.example.week1.databinding.ItemViewBinding
 import com.l4digital.fastscroll.FastScroller
 
 
 class callendarAdapter(
     val context: CallendarFragment,
     private val items: ArrayList<Schedule>,
-    val viewtype : Int
-) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+) : RecyclerView.Adapter<callendarAdapter.ViewHolder>() {
 
     override fun getItemCount(): Int = items.size
+    private lateinit var itemClickListener : OnItemClickListener
+    var viewtype = 0
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+    fun setviewtype(num : Int){
+        this.viewtype = num
+    }
+
+    override fun onBindViewHolder(holder: callendarAdapter.ViewHolder, position: Int) {
 
         val item = items[position]
-
-        if(viewtype == 0)
-            (holder as ViewHolder).content.text = item.content
-        else
-            (holder as ViewHolder2).content.text = item.content
-
+        val listener = View.OnClickListener { it ->
+//            Toast.makeText(it.context, "Clicked -> Name : ${item.name}, Number : ${item.number}", Toast.LENGTH_SHORT).show()
+        }
+        holder.apply {
+            bind(listener, item, viewtype)
+//            itemView.tag = item
+        }
         holder.itemView.setOnClickListener{
             if(viewtype == 1)
                 itemClickListener.onClick(it, position)
-
         }
     }
 
@@ -45,30 +52,18 @@ class callendarAdapter(
         this.itemClickListener = OnItemClickListener
     }
 
-    private lateinit var itemClickListener : OnItemClickListener
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val view : View?
-        return when(viewtype){
-            0 -> {
-                val binding = CallenderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return ViewHolder(binding)
-            }
-            1 -> {
-                val binding = CallenderItem2Binding.inflate(LayoutInflater.from(parent.context), parent, false)
-                return ViewHolder2(binding)
-            }
-            else -> throw RuntimeException("")
-        }
-
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): callendarAdapter.ViewHolder {
+        val binding = CallenderItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return callendarAdapter.ViewHolder(binding)
     }
 
     // 각 항목에 필요한 기능을 구현
     class ViewHolder(var binding : CallenderItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        val content = binding.content
-    }
-    class ViewHolder2(var binding : CallenderItem2Binding) : RecyclerView.ViewHolder(binding.root) {
-        val content = binding.content
+        fun bind(listener: View.OnClickListener, item: Schedule, viewtype: Int) {
+            binding.content.text = item.content
+            if(viewtype == 1)
+                binding.image.setImageResource(R.drawable.icon_bin)
+        }
     }
 }
 
