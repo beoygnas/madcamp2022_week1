@@ -9,7 +9,8 @@
     android:layout_height="wrap_content"
     android:background="#FFFFFF"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="10dp">
+
     <!-- Basic Page back ground Color F5F8FD -->
     <ImageView
         android:id="@+id/Image"

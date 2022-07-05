@@ -47,7 +47,7 @@ class CallendaraddDialog(context: Context) {
         button_back = dialog.findViewById<ImageButton>(R.id.btn_back)
 
 
-        textView.text = String.format("%d년 %d월 %d일\n", year, month, day)
+        textView.text = String.format("%d년 %d월 %d일의 메모입니다.\n", year, month, day)
 
         dialog.show()
 
