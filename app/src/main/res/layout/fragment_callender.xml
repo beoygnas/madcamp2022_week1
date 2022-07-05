@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -66,10 +67,8 @@
             app:layout_constraintHorizontal_bias="0.1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendarView"
-            app:layout_constraintVertical_bias="0"
+            app:layout_constraintVertical_bias="0.05"
             />
-
-
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/calendarlist"
@@ -91,12 +90,14 @@
         android:hint = "일정이 비어있습니다."
         android:layout_width="350dp"
         android:layout_height="250dp"
+        android:gravity="center"
+        android:textAlignment="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/textview"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintVertical_bias="0.5"
         tools:listitem="@layout/callender_item" />
 
 
@@ -108,6 +109,7 @@
         app:layout_constraintBottom_toTopOf="@+id/calendarlist"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
         app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview"
         android:visibility="invisible"
@@ -146,6 +148,7 @@
         app:layout_constraintBottom_toTopOf="@+id/calendarlist"
         app:layout_constraintTop_toBottomOf="@+id/calendarView"
         app:layout_constraintHorizontal_bias="0.9"
+        app:layout_constraintVertical_bias="0.95"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textview"
 

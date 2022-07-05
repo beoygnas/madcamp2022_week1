@@ -187,7 +187,7 @@ class ContactFragment : Fragment() {
                     val jsonObject = JSONObject(jsonstr)
                     val newcontactjson = JSONObject()
 
-                    val imageUri: String = "android.resource://com.example.week1/" + R.drawable.icon_profile
+                    val imageUri: String = "android.resource://com.example.week1/" + R.drawable.icon_contact_basic
 
                     newcontactjson.put("img", imageUri)
                     newcontactjson.put("name", name)

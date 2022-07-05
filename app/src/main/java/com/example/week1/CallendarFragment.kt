@@ -78,7 +78,7 @@ class CallendarFragment : Fragment() {
             selected_month = month+1
             selected_day = dayOfMonth
 
-            binding.textview.text = String.format("%d월 %d일 일정", selected_month, selected_day)
+            binding.textview.text = String.format("%d월 %d일", selected_month, selected_day)
 
             var str_year : String
             var str_month : String
@@ -158,9 +158,9 @@ class CallendarFragment : Fragment() {
                         }
                         listfromjson.add(0, Schedule(content, regdata))
 
-                        binding.calendarlist.adapter?.notifyItemInserted(0);
                         binding.emptytext.visibility = View.INVISIBLE
                         binding.calendarlist.visibility = View.VISIBLE
+                        adapter.notifyItemInserted(0);
                     }
                 }
 
@@ -211,7 +211,6 @@ class CallendarFragment : Fragment() {
                             requireContext().openFileOutput(datestr+".json", Context.MODE_PRIVATE).use {
                                 it.write(newjsonObject.toString().toByteArray())
                             }
-
 
                             if(listfromjson.size == 0) {
                                 binding.emptytext.visibility = View.VISIBLE
