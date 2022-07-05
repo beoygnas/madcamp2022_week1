@@ -34,7 +34,7 @@
                     android:background="#FFFFFF"
                     android:minHeight="?attr/actionBarSize"
                     android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
-                    app:title="Callender">
+                    app:title="Calendar">
 
                     <!--            <androidx.appcompat.widget.SearchView-->
                     <!--                android:layout_width="250dp"-->

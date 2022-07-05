@@ -1,8 +1,6 @@
 package com.example.week1
 
 import android.content.Context
-import android.content.Intent
-import android.content.Intent.getIntent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -30,7 +28,7 @@ class CallendarFragment : Fragment() {
     private val binding get() = _binding!!
     private val binding2 get() = _binding2!!
 
-    lateinit var adapter : callendarAdapter
+    lateinit var adapter : CallendarAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,7 +126,7 @@ class CallendarFragment : Fragment() {
                 binding.calendarlist.visibility = View.INVISIBLE
             }
             else {
-                adapter = callendarAdapter(this, listfromjson)
+                adapter = CallendarAdapter(this, listfromjson)
                 binding.calendarlist.adapter = adapter
 
                 binding.calendarlist.adapter?.notifyDataSetChanged()
@@ -139,7 +137,7 @@ class CallendarFragment : Fragment() {
 
         binding.btnadd.setOnClickListener{
 
-            adapter = callendarAdapter(this, listfromjson)
+            adapter = CallendarAdapter(this, listfromjson)
             adapter.setviewtype(0)
             binding.calendarlist.adapter = adapter
 
@@ -158,7 +156,7 @@ class CallendarFragment : Fragment() {
                         }
                         listfromjson.add(0, Schedule(content, regdata))
 
-                        adapter = callendarAdapter(this@CallendarFragment, listfromjson)
+                        adapter = CallendarAdapter(this@CallendarFragment, listfromjson)
                         binding.calendarlist.adapter = adapter
 
                         binding.emptytext.visibility = View.INVISIBLE
@@ -170,12 +168,12 @@ class CallendarFragment : Fragment() {
 
         binding.btnremove.setOnClickListener{
 
-            adapter = callendarAdapter(this, listfromjson)
+            adapter = CallendarAdapter(this, listfromjson)
             adapter.setviewtype(1)
             binding.calendarlist.adapter = adapter
 
             //삭제
-            adapter.setItemClickListener(object : callendarAdapter.OnItemClickListener {
+            adapter.setItemClickListener(object : CallendarAdapter.OnItemClickListener {
                 override fun onClick(v: View, position: Int) {
                     val tmpcontent = listfromjson[position].content
                     val tmpregdata = listfromjson[position].regdata
@@ -233,7 +231,7 @@ class CallendarFragment : Fragment() {
                 binding.calendarlist.visibility = View.INVISIBLE
             }
             else {
-                adapter = callendarAdapter(this@CallendarFragment, listfromjson)
+                adapter = CallendarAdapter(this@CallendarFragment, listfromjson)
                 adapter.viewtype = 0
                 binding.calendarlist.adapter = adapter
                 binding.emptytext.visibility = View.INVISIBLE
