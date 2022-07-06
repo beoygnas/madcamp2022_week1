@@ -94,11 +94,10 @@ targetSdk 32
 
     
 <p>
-    <p></p>
     <img src="https://i.imgur.com/wk2GxNw.jpg" height="32%" width="32%">
     <img src="https://i.imgur.com/R76k1rz.jpg" height="32%" width="32%">
 <img src="https://i.imgur.com/d03JxGr.jpg" height="32%" width="32%">
-    <p><br></p>
+    <br><br><br>
 </p>
 
 
